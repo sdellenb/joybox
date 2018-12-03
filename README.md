@@ -23,3 +23,13 @@ Start the front-end with
 DISPLAY=:0 chromium-browser --kiosk http://localhost:3000
 ```
 
+## Notes
+Volume control with amixer
+```
+amixer cset numid=3,iface=MIXER,name='PCM Playback Volume' 10%
+```
+
+Playback control with omxplayer
+```
+omxplayer -o alsa media/one_love.mp3
+```
