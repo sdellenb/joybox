@@ -1,0 +1,10 @@
+{
+  "name": "joybox",
+  "version": "0.0.1",
+  "description": "Simple touch-based media player with Web UI",
+  "main": "index.js",
+  "repository": "https://github.com/sdellenb/joybox",
+  "author": "Simon Dellenbach <sdellenb@gmail.com>",
+  "license": "GPLv3",
+  "private": false
+}
