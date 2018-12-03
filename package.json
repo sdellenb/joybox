@@ -5,6 +5,9 @@
   "main": "index.js",
   "repository": "https://github.com/sdellenb/joybox",
   "author": "Simon Dellenbach <sdellenb@gmail.com>",
-  "license": "GPLv3",
-  "private": false
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "koa": "^2.6.2"
+  }
 }
