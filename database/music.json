@@ -1,0 +1,34 @@
+[
+  {
+    "uid": "aa496acc-52c6-4df5-a1ef-497390d30630",
+    "album_name": "Nani Heart - I Am",
+    "tracks": [
+      {
+        "uid": "d65b2768-da2e-4b8f-93f2-e3a343a2a3c3",
+        "track_index": 1,
+        "path": "media\\music\\Nani Heart - I Am\\01 Release #2.mp3"
+      }
+    ]
+  },
+  {
+    "uid": "b784efa2-010b-4f66-864a-80316ddf208d",
+    "album_name": "Various Artists",
+    "tracks": [
+      {
+        "uid": "9df512f6-af70-4100-9ad2-6be64829edf1",
+        "track_index": 1,
+        "path": "media\\music\\Various Artists\\(22) Mike Post - The A-Team.mp3"
+      },
+      {
+        "uid": "0f16b97c-fede-40f4-abf5-53a30290a361",
+        "track_index": 2,
+        "path": "media\\music\\Various Artists\\(TV Theme) PARKER LEWIS CAN'T LOSE (extended version).mp3"
+      },
+      {
+        "uid": "288191ac-33c6-46d6-940b-bceb4591bb9d",
+        "track_index": 3,
+        "path": "media\\music\\Various Artists\\Waylon Jennings - Dukes of Hazard Theme Song.mp3"
+      }
+    ]
+  }
+]

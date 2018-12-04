@@ -1,0 +1,98 @@
+[
+  {
+    "uid": "ad1a223a-3ddc-4da8-8702-40ea6119329e",
+    "album_name": "Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen",
+    "tracks": [
+      {
+        "uid": "8cb31549-f09c-4100-b69f-a1e0572c972a",
+        "track_index": 1,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\01 Geschichte.mp3"
+      },
+      {
+        "uid": "4271a955-4518-4db6-9283-8173f0ab94d4",
+        "track_index": 2,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\02 Liselotte Postkuh.mp3"
+      },
+      {
+        "uid": "ecd85824-a4df-49f8-8dfc-cbff06bfd5a7",
+        "track_index": 3,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\03 Geschichte.mp3"
+      },
+      {
+        "uid": "d4384db2-142a-4030-a8ef-4b4e765756a7",
+        "track_index": 4,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\04 So müde.mp3"
+      },
+      {
+        "uid": "cee80ec9-20c9-46cf-88a6-9d104fe68dcc",
+        "track_index": 5,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\05 Geschichte.mp3"
+      },
+      {
+        "uid": "09f4da16-dd66-4647-9baf-7bad9fe1b600",
+        "track_index": 6,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\06 Ich liebe Apfelkuchen.mp3"
+      },
+      {
+        "uid": "8ed9b8e4-15e1-43fb-918f-960c6c3b14b4",
+        "track_index": 7,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\07 Geschichte.mp3"
+      },
+      {
+        "uid": "7bf75025-3458-483d-b478-73f70597ae57",
+        "track_index": 8,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\08 Ich war das nicht.mp3"
+      },
+      {
+        "uid": "621de096-52b7-4cb1-94e5-512e2705ed04",
+        "track_index": 9,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\09 Geschichte.mp3"
+      },
+      {
+        "uid": "1a5011ad-e96d-437b-9407-6fd53ff19052",
+        "track_index": 10,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\10 In der Nacht.mp3"
+      },
+      {
+        "uid": "c503a707-9ee1-4eb2-a4ae-db93ed97135d",
+        "track_index": 11,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\11 Geschichte.mp3"
+      },
+      {
+        "uid": "a8285d75-a13f-4c27-9582-7b7c8aa659f2",
+        "track_index": 12,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\12 Entschuldige.mp3"
+      },
+      {
+        "uid": "6d0a05a4-2adb-4471-b475-075ad963ea32",
+        "track_index": 13,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\13 Geschichte.mp3"
+      },
+      {
+        "uid": "ae86a7ea-8508-4b8b-869c-e9fe07ae9044",
+        "track_index": 14,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\14 Ein neues Tier auf dem Bauernhof.mp3"
+      },
+      {
+        "uid": "16e84668-471e-436d-b20d-91438e8fcede",
+        "track_index": 15,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\15 Geschichte.mp3"
+      },
+      {
+        "uid": "d7f414e8-0260-401c-927c-2ce86de0947d",
+        "track_index": 16,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\16 Cavia porcelli.mp3"
+      },
+      {
+        "uid": "e61db86d-b5b0-4ef4-a28f-80b00772f60c",
+        "track_index": 17,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\17 Geschichte.mp3"
+      },
+      {
+        "uid": "de5e699f-c42a-4d2f-8651-172aa97d97e9",
+        "track_index": 18,
+        "path": "media\\audiobooks\\Alexander Steffensmeier - Lieselottes und der verschwundene Apfelkuchen\\18 Heute feiern wir ein Fest.mp3"
+      }
+    ]
+  }
+]

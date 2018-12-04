@@ -1,12 +1,9 @@
 /* eslint-disable no-console */
-const scanFolder = require('recursive-readdir');
+const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-
-// const mediaPath = path.join(__dirname, '..', 'media');
-const musicPath = path.join('.', 'media', 'music');
-const audiobooksPath = path.join('.', 'media', 'audiobooks');
-const extensionsToIgnore = ['*.jpg', '*.jpeg'];
+const scanFolder = require('recursive-readdir');
+const uuidv4 = require('uuid/v4');
 
 /**
  * Folder structure strictly follows this 3-level pattern:
@@ -18,57 +15,47 @@ const extensionsToIgnore = ['*.jpg', '*.jpeg'];
  *      - Songs (multiple mp3 etc.)
 */
 
-scanFolder(musicPath, extensionsToIgnore).then(
-    function (files) {
-        // console.log('music files are', files);
-        const sortedFiles = files.sort();
-        let songs = [];
-        let id = 0;
-        let trackIndex = 0;
-        let previousAlbumName = null;
-        for (const filePath of sortedFiles) {
-            const albumName = filePath.split(path.sep)[2];
-            if (albumName === previousAlbumName) {
-                trackIndex += 1;
+function scanToLibrary(category) {
+    // const mediaPath = path.join(__dirname, '..', 'media');
+    // const musicPath = path.join('.', 'media', 'music');
+    // const audiobooksPath = path.join('.', 'media', 'audiobooks');
+    const extensionsToIgnore = ['*.jpg', '*.jpeg'];
+    const libraryPath = path.join('.', 'media', category);
+    assert.ok(fs.existsSync(libraryPath));
+    scanFolder(libraryPath, extensionsToIgnore).then(
+        function (files) {
+            const sortedFiles = files.sort();
+            let categoryLibrary = [];
+            let trackIndex = null;
+            let currentAlbumName = null;
+            let currentAlbum = null;
+            for (const filePath of sortedFiles) {
+                const albumName = filePath.split(path.sep)[2];
+                if (albumName !== currentAlbumName) {
+                    // New album, re-start track counting.
+                    trackIndex = 1;
+                    currentAlbum = {
+                        uid: uuidv4(),
+                        album_name: albumName,
+                        tracks: [],
+                    };
+                    categoryLibrary.push(currentAlbum);
+                    currentAlbumName = albumName; // To find out when a new album starts.
+                }
+                else {
+                    trackIndex += 1;
+                }
+                const track = ({'uid': uuidv4(), 'track_index': trackIndex, 'path': filePath});
+                currentAlbum.tracks.push(track);
             }
-            else {
-                trackIndex = 1;
-                previousAlbumName = albumName;
-            }
-            songs.push({'id': ++id, 'track_index': trackIndex, 'path': filePath, 'album_name': albumName});
+            fs.writeFileSync(`./database/${category}.json`, JSON.stringify(categoryLibrary, null, 2));
+            console.log(`Done writing ./database/${category}.json.`);
+        },
+        function (error) {
+            console.error('something exploded', error);
         }
-        fs.writeFileSync('./database/songs.json', JSON.stringify(songs, null, 2));
-        console.log('Done.');
-    },
-    function (error) {
-        console.error('something exploded', error);
-    }
-);
+    );
+}
 
-
-scanFolder(audiobooksPath, extensionsToIgnore).then(
-    function (files) {
-        // console.log('music files are', files);
-        const sortedFiles = files.sort();
-        let audiobookChapters = [];
-        let id = 0;
-        let trackIndex = 0;
-        let previousAudiobookName = null;
-        for (const filePath of sortedFiles) {
-            const audiobookName = filePath.split(path.sep)[2];
-            if (audiobookName === previousAudiobookName) {
-                trackIndex += 1;
-            }
-            else {
-                trackIndex = 1;
-                previousAudiobookName = audiobookName;
-            }
-            audiobookChapters.push({'id': ++id, 'track_index': trackIndex, 'path': filePath, 'audiobook_name': audiobookName});
-        }
-        fs.writeFileSync('./database/audiobook_chapters.json', JSON.stringify(audiobookChapters, null, 2));
-        console.log('Done.');
-    },
-    function (error) {
-        console.error('something exploded', error);
-    }
-);
+scanToLibrary('music');
+scanToLibrary('audiobooks');
