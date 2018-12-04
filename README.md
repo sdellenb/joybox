@@ -20,7 +20,7 @@ https://yarnpkg.com/lang/en/docs/install/#debian-stable
 ## Setup
 ```
 yarn install
-node run
+node start
 ```
 
 Start the front-end with
