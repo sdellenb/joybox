@@ -8,9 +8,13 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
-    "koa": "^2.6.2"
+    "koa": "^2.6.2",
+    "recursive-readdir": "^2.2.2"
   },
   "devDependencies": {
     "eslint": "^5.9.0"
+  },
+  "scripts": {
+    "scan": "node scripts/update_database.js"
   }
 }
