@@ -25,7 +25,12 @@
     "sinon": "^7.1.1"
   },
   "scripts": {
-    "scan": "node scripts/update_database.js",
+    "initdb": "./node_modules/.bin/knex migrate:latest --env development",
+    "initdb:prod": "./node_modules/.bin/knex migrate:latest --env production",
+    "initdb:test": "./node_modules/.bin/knex migrate:latest --env test",
+    "scan": "./node_modules/.bin/knex seed:run --env development",
+    "scan:prod": "./node_modules/.bin/knex seed:run --env production",
+    "scan:test": "./node_modules/.bin/knex seed:run --env test",
     "start": "node src/server/index.js",
     "test": "./node_modules/.bin/mocha ./test/**/*.test.js"
   }

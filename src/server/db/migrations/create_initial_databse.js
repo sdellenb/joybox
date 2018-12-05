@@ -3,10 +3,10 @@ exports.up = function(knex, Promise) {
     // Create referenced table before referencing table.
     return knex.schema.createTable('categories', (categories) => {
         categories.increments('id').primary();
-        categories.string('category_name').notNullable().unique();
+        categories.string('name').notNullable().unique();
     }).createTable('albums', (albums) => {
         albums.increments('id').primary();
-        albums.string('album_name').notNullable().unique();
+        albums.string('name').notNullable().unique();
         albums.integer('category_id').references('id').inTable('categories').notNull().onDelete('cascade');
     }).createTable('tracks', (tracks) => {
         tracks.increments('id').primary();

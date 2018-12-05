@@ -16,6 +16,18 @@ module.exports = {
     },
     development: {
         client: 'sqlite3',
+        connection: './database/library_dev.sqlite',
+        migrations: {
+            directory: path.join(BASE_PATH, 'migrations')
+        },
+        seeds: {
+            directory: path.join(BASE_PATH, 'seeds')
+        },
+        useNullAsDefault: true,
+        asyncStackTraces: true,
+    },
+    production: {
+        client: 'sqlite3',
         connection: './database/library.sqlite',
         migrations: {
             directory: path.join(BASE_PATH, 'migrations')
