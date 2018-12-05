@@ -1,7 +1,7 @@
 {
   "name": "joybox",
   "version": "0.1.0",
-  "description": "Simple touch-based media player with Web UI",
+  "description": "A kid-friendly touch-based media library player on the Raspberry Pi",
   "repository": "https://github.com/sdellenb/joybox",
   "author": "Simon Dellenbach <sdellenb@gmail.com>",
   "license": "GPL-3.0",

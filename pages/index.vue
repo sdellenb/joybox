@@ -3,10 +3,10 @@
     <div>
       <logo/>
       <h1 class="title">
-        joybox2
+        joybox
       </h1>
       <h2 class="subtitle">
-        My first-class Nuxt.js project
+        A kid-friendly touch-based media library player on the Raspberry Pi
       </h2>
       <div class="links">
         <a
