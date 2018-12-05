@@ -9,15 +9,32 @@ exports.seed = async (knex, Promise) => {
     // The categories were populated by the 01_categories.js seed.
     const categories = await knex.select('id', 'name').from('categories');
 
-    // First, wipe the existing album table data.
+    // First, wipe the existing album and tracks tables.
     await knex('albums').del();
+    await knex('tracks').del();
+    await knex('SQLITE_SEQUENCE').update('SEQ', 0).where('name', 'albums').orWhere('name', 'tracks'); // Reset the sequences.
     for(const {id, name} of categories) {
         console.log(`\nScanning category ${name}...`);
-        const scanResult = await scanCategory(id, name);
-        // console.log(`scanResult: ${JSON.stringify(scanResult, null, 2)}`);
-        await knex.into('albums').insert(scanResult);
+        const categoryAlbums = await scanCategory(id, name);
+ 
+        for(const albumWithTracks of categoryAlbums) {
+            const {tracks, ...album} = albumWithTracks;
+            await knex.into('albums').insert(album);
+            // Workaround, as insert returns a weird Array-looking Object with the number of rows in the table.
+            // See also https://github.com/tgriesser/knex/issues/2917#issuecomment-440263593
+            const [row] = await knex.select(knex.raw('last_insert_rowid() as id'));
+            const album_id = row.id;
+            console.log(`* Album '${album.name}' added with id '${album_id}'.`);
+
+            const tracksWithAlbumId = tracks.map(track => {
+                track['album_id'] = album_id;
+                return track;
+            });
+            await knex.into('tracks').insert(tracksWithAlbumId);
+            console.log(`** Number of tracks added to album '${album_id}': ${tracks.length}`);
+        }
     }
-    console.log('Done.\n');
+    console.log('\nDone.\n');
 };
 
 async function scanCategory(id, name) {
@@ -26,29 +43,32 @@ async function scanCategory(id, name) {
     const extensionsToIgnore = ['*.jpg', '*.jpeg'];
     const libraryPath = path.join('.', mediaFolder, name);
     assert.ok(fs.existsSync(libraryPath));
+
     const files = await scanFolder(libraryPath, extensionsToIgnore);
     const sortedFiles = files.sort();
-    let categoryLibrary = [];
-    // let trackIndex = null;
+    let categoryAlbums = [];
+    let trackIndex = null;
     let currentAlbumName = null;
     let currentAlbum = null;
     for (const filePath of sortedFiles) {
+        // Index 0 is 'media', index 1 is the category.
         const albumName = filePath.split(path.sep)[2];
         if (albumName !== currentAlbumName) {
             // New album, re-start track counting.
-            // trackIndex = 1;
+            trackIndex = 1;
             currentAlbum = {
                 name: albumName,
                 category_id: id,
+                tracks: [],
             };
-            categoryLibrary.push(currentAlbum);
+            categoryAlbums.push(currentAlbum);
             currentAlbumName = albumName; // To find out when a new album starts.
         }
-        // else {
-        //     trackIndex += 1;
-        // }
-        // const track = ({'uid': uuidv4(), 'track_index': trackIndex, 'path': filePath});
-        // currentAlbum.tracks.push(track);
+        else {
+            trackIndex += 1;
+        }
+        const track = ({'track_index': trackIndex, 'path': filePath});
+        currentAlbum.tracks.push(track);
     }
-    return categoryLibrary;
+    return categoryAlbums;
 }
