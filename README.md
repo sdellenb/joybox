@@ -27,6 +27,10 @@ https://yarnpkg.com/lang/en/docs/install/#debian-stable
 5. Fire up the server with `node start`
 6. Start the front-end with `DISPLAY=:0 chromium-browser --kiosk http://localhost:3000`
 
+## Disclaimer
+Most of the REST API & DB backend code is based on the examples in https://github.com/mjhea0/node-koa-api
+It was of great help to have such a nice template to implement my own requirements.
+
 ## Notes
 Volume control with amixer
 ```

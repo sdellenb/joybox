@@ -7,10 +7,10 @@ module.exports = {
         client: 'sqlite3',
         connection: './database/library_test.sqlite',
         migrations: {
-            directory: path.join(BASE_PATH, 'migrations')
+            directory: path.join(BASE_PATH, 'migrations'),
         },
         seeds: {
-            directory: path.join(BASE_PATH, 'seeds')
+            directory: path.join(BASE_PATH, 'seeds'),
         },
         useNullAsDefault: true,
     },
@@ -18,10 +18,10 @@ module.exports = {
         client: 'sqlite3',
         connection: './database/library_dev.sqlite',
         migrations: {
-            directory: path.join(BASE_PATH, 'migrations')
+            directory: path.join(BASE_PATH, 'migrations'),
         },
         seeds: {
-            directory: path.join(BASE_PATH, 'seeds')
+            directory: path.join(BASE_PATH, 'seeds'),
         },
         useNullAsDefault: true,
         asyncStackTraces: true,
@@ -30,11 +30,11 @@ module.exports = {
         client: 'sqlite3',
         connection: './database/library.sqlite',
         migrations: {
-            directory: path.join(BASE_PATH, 'migrations')
+            directory: path.join(BASE_PATH, 'migrations'),
         },
         seeds: {
-            directory: path.join(BASE_PATH, 'seeds')
+            directory: path.join(BASE_PATH, 'seeds'),
         },
         useNullAsDefault: true,
-    }
+    },
 };
