@@ -24,21 +24,21 @@
   "dependencies": {
     "cross-env": "^5.2.0",
     "knex": "^0.15.2",
-    "koa": "^2.5.2",
+    "koa": "^2.6.2",
     "koa-router": "^7.4.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.3.4",
     "recursive-readdir": "^2.2.2",
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
-    "eslint": "^5.0.1",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^4.0.0",
+    "eslint": "^5.9.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.18.7",
     "sinon": "^7.1.1"
   }
 }
