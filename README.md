@@ -18,15 +18,13 @@ https://yarnpkg.com/lang/en/docs/install/#debian-stable
 * `chromium-browser` for the Web UI
 
 ## Setup
-```
-yarn install
-node start
-```
-
-Start the front-end with
-```
-DISPLAY=:0 chromium-browser --kiosk http://localhost:3000
-```
+1. Fork/Clone
+2. Install dependencies with `yarn install`
+3. Create the SQLite database and tables with `knex migrate:latest --env development`
+4. Fill the library SQLite database with `npm scan`  
+  This will execute `knex seed:run --env development` to seed the database with the contents of the `media` folder.
+5. Fire up the server with `node start`
+6. Start the front-end with `DISPLAY=:0 chromium-browser --kiosk http://localhost:3000`
 
 ## Notes
 Volume control with amixer

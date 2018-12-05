@@ -27,9 +27,9 @@ const endpoints = {
         route: '/',
         middlewares: ['static']
     },
-    getAlbums: {
+    getLibrary: {
         method: 'get', // route endpoint method --> post, get, put, delete
-        route: 'albums', // route path
+        route: '/api/v1/library', // route path
         middlewares: [] // middleware functions that will be used
     }
 };
