@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
+const categories = require('./api/categories.js');
+const albums = require('./api/albums.js');
+const tracks = require('./api/tracks.js');
+
 const server = {
-    httpPort: 3000, // on this port koa will accept http
+    httpPort: process.env.PORT || 3000, // on this port koa will accept http
 };
 module.exports.server = server;
 
@@ -27,10 +31,20 @@ const endpoints = {
         route: '/',
         middlewares: ['static']
     },
-    getLibrary: {
+    getCategories: {
         method: 'get', // route endpoint method --> post, get, put, delete
-        route: '/api/v1/library', // route path
-        middlewares: [] // middleware functions that will be used
+        route: '/api/v1/categories', // route path
+        middlewares: [categories.getCategories] // middleware functions that will be used
+    },
+    getAlbums: {
+        method: 'get', // route endpoint method --> post, get, put, delete
+        route: '/api/v1/categories/:categoryId/albums', // route path
+        middlewares: [albums.getAlbums] // middleware functions that will be used
+    },
+    getTracks: {
+        method: 'get', // route endpoint method --> post, get, put, delete
+        route: '/api/v1/categories/:categoryId/albums/:albumId/tracks', // route path
+        middlewares: [tracks.getTracks] // middleware functions that will be used
     }
 };
 module.exports.endpoints = endpoints;
