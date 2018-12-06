@@ -1,5 +1,5 @@
 # joybox
-A kid-friendly touch-based media library player on the Raspberry Pi
+A kid-friendly touch-controlled library media player on the Raspberry Pi
 
 ## Targetted Hardware (i.e. tested with)
 * Raspberry Pi 3 Model A+ running Raspbian Stretch
@@ -16,19 +16,19 @@ https://yarnpkg.com/lang/en/docs/install/#debian-stable
 3. Raspbian Stretch Packages (additional to Raspbian Lite)
 * `omxplayer` for media playback
 * `chromium-browser` for the Web UI
-* Any X11 desktop environment (I used LXDE) with autologin.
+* An X desktop environment (I used LXDE) with autologin enabled.
 
 ## Setup
 1. Fork/Clone
 2. Install dependencies with `yarn install`
 3. Create the SQLite database and tables with `npm run initdb` (or `npm run initdb:prod`)
-4. Fill the library SQLite database with `npm run scan` (or `npm run scan:prod`)
-  This will execute `knex seed:run --env development` to seed the database with the contents of the `media` folder.
-5. Fire up the server with `node start`
+4. Fill the library SQLite database with `npm run scan` (or `npm run scan:prod`)  
+   This will execute `knex seed:run --env development` to seed the database with the contents of the `media` folder.
+5. Fire up the server with `npm start`
 6. Start the front-end with `DISPLAY=:0 chromium-browser --kiosk http://localhost:3000`
 
 ## Disclaimer
-Most of the REST API & DB backend code is based on the examples in https://github.com/mjhea0/node-koa-api
+Most of the REST API & DB backend code is based on the examples in https://github.com/mjhea0/node-koa-api.  
 It was of great help to have such a nice template to implement my own requirements.
 
 ## Notes
