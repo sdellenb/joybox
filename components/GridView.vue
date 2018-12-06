@@ -1,61 +1,59 @@
 <template>
-    <div class="GridView">
-        <div class="GridCell">
-            Grid Cell 1
-        </div>
-        <div class="GridCell">
-            Grid Cell 2
-        </div>
-        <div class="GridCell">
-            Grid Cell 3
-        </div>
-        <div class="GridCell">
-            Grid Cell 4
-        </div>
-        <div class="GridCell">
-            Grid Cell 5
-        </div>
-        <div class="GridCell">
-            Grid Cell 6
-        </div>
-        <div class="GridCell">
-            Grid Cell 7
-        </div>
-        <div class="GridCell">
-            Grid Cell 8
-        </div>
-        <div class="GridCell">
-            Grid Cell 9
-        </div>
-        <div class="GridCell">
-            Grid Cell 10
-        </div>
+    <div
+        v-if="items.length > 0"
+        v-touch:swipe="swipeHandler"
+        class="GridView"
+    >
+        <GridCell
+            v-for="item of items"
+            :key="item.id"
+            :content="item.name"
+        />
     </div>
 </template>
 
+<script>
+import GridCell from '~/components/GridCell.vue';
+
+// Dummy data for the Grid.
+const numCells = 10;
+const items = [];
+for(let i = 1; i <= numCells; i++) {
+    const album = {
+        id: `${i}`,
+        name: `Album ${i}`,
+    };
+    items.push(album);
+}
+
+export default {
+    components: {
+        GridCell,
+    },
+    data: () => ({
+        items: items,
+    }),
+    methods: {
+        swipeHandler: (direction) => {
+            console.log(`*** Swiped ${direction}`);  // May be left / right / top / bottom
+        },
+    },
+};
+</script>
+
 <style lang="scss">
+    $gridSize: 200px;
     $gridSpacing: 10px;
 
     .GridView {
-        height: 400px + 2 * $gridSpacing;
-        max-height: 400px + 2 * $gridSpacing;
-        width: auto;
-        overflow: auto;
-        overflow-y: hidden;
+        height: 2 * $gridSize + $gridSpacing;
+        max-height: 2 * $gridSize + $gridSpacing;
+        width: 3 * $gridSize + 2 * $gridSpacing + $gridSize / 2; // Three and a half tiles.
+        overflow: auto; // Touch scrolling enabled.
         display: grid;
-        grid-template-columns: 200px 200px 200px;
-        grid-template-rows: top 200px bottom 200px;
-        grid-column-gap: $gridSpacing;
-        grid-row-gap: $gridSpacing;
-
-        .GridCell {
-            width: 200px;
-            height: 200px;
-            background-color: pink;
-            border-width: 0px;
-            border-color: black;
-            border-radius: 10px;
-        }
+        grid-gap: $gridSpacing;
+        grid-template-rows: repeat(2, 200px);
+        grid-auto-flow: column;
     }
 
 </style>
