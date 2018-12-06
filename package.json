@@ -28,7 +28,8 @@
     "koa-router": "^7.4.0",
     "nuxt": "^2.3.4",
     "recursive-readdir": "^2.2.2",
-    "sqlite3": "^4.0.4"
+    "sqlite3": "^4.0.4",
+    "vue2-touch-events": "^1.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

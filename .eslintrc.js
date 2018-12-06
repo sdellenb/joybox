@@ -30,6 +30,7 @@ module.exports = {
 	  quotes: ['error', 'single'],
 	  semi: ['error', 'always'],
     'eol-last': ['error', 'always'],
-    'comma-dangle': ['warn', 'always-multiline']
+    'comma-dangle': ['warn', 'always-multiline'],
+    'vue/html-indent': ['warn', 4]
   }
 }
