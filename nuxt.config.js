@@ -33,6 +33,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
     plugins: [
+        '~/plugins/vue2-touch-events',
     ],
 
     /*
@@ -57,6 +58,7 @@ module.exports = {
                     loader: 'eslint-loader',
                     exclude: /(node_modules)/,
                 });
+                config.devtool = '#source-map';
             }
         },
     },
