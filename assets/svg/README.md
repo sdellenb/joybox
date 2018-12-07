@@ -1,7 +1,7 @@
 # Source of the used icons
 
 | group | icon name | preview | source link |
-|-------|-----------|---------|-------------|
+|-------|-----------|:-------:|-------------|
 | **categories** | audiobooks.svg | ![audiobooks.svg](./audiobooks.svg) | https://iconmonstr.com/book-17-svg/ |
 | **categories** | music.svg | ![music.svg](./music.svg)  |https://iconmonstr.com/audio-19-svg/ |
 | **controls** | backward.svg | ![backward.svg](./backward.svg) | https://iconmonstr.com/media-control-18-svg/ |
