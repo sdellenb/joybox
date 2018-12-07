@@ -3,7 +3,8 @@
 | group | icon name | preview | source link |
 |-------|-----------|:-------:|-------------|
 | **categories** | audiobooks.svg | ![audiobooks.svg](./audiobooks.svg) | https://iconmonstr.com/book-17-svg/ |
-| **categories** | music.svg | ![music.svg](./music.svg)  |https://iconmonstr.com/audio-19-svg/ |
+| **categories** | music.svg | ![music.svg](./music.svg) | https://iconmonstr.com/audio-19-svg/ |
+| **categories** | unknown.svg | ![unknown.svg](./unknown.svg) | https://iconmonstr.com/help-3-svg/ |
 | **controls** | backward.svg | ![backward.svg](./backward.svg) | https://iconmonstr.com/media-control-18-svg/ |
 | **controls** | forward.svg | ![forward.svg](./forward.svg) | https://iconmonstr.com/media-control-13-svg/ |
 | **controls** | pause.svg | ![pause.svg](./pause.svg) | https://iconmonstr.com/media-control-5-svg/ |
