@@ -10,12 +10,13 @@
         >
             <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
             <nuxt-link
+                :v-if="itemRouteName"
                 :to="{ name: itemRouteName, params: createRouteParams(item.id) }"
             >
                 <div class="GridCellContent">
                     <!-- TODO: Show thumbnail here. -->
-                    {{ item.track_index && item.track_index }}
-                    {{ item.name }}
+                    <span v-if="item.number" class="GridCellContentNumber">{{ item.number }}</span>
+                    <span v-else>{{ item.name }}</span>
                 </div>
             </nuxt-link>
         </div>
@@ -45,7 +46,8 @@ export default {
 
 <style lang="scss">
 $gridSize: 200px;
-$gridSpacing: 10px;
+$gridSpacing: 20px;
+$numberSize: 60px;
 
 .GridView {
   height: 2 * $gridSize + $gridSpacing;
@@ -57,6 +59,23 @@ $gridSpacing: 10px;
   grid-template-rows: repeat(2, 200px);
   grid-auto-flow: column;
 
+  a {
+      color: black;
+      text-decoration: none;
+
+      &:visited {
+          text-decoration: none;
+      }
+
+      &:hover {
+          text-decoration: none;
+      }
+
+      &:active {
+          text-decoration: none;
+      }
+  }
+
   .GridCell {
     display: flex;
     justify-content: center;
@@ -65,7 +84,7 @@ $gridSpacing: 10px;
     width: $gridSize;
     height: $gridSize;
     background-color: pink;
-    border-radius: 10px;
+    border-radius: $gridSpacing;
 
     .GridCellContent {
       display: flex;
@@ -74,6 +93,13 @@ $gridSpacing: 10px;
       text-align: center;
       width: $gridSize;
       height: $gridSize;
+
+      &Number {
+          position: relative;
+          top: 50px;
+          left: 50px;
+          font-size: $numberSize;
+      }
     }
   }
 }

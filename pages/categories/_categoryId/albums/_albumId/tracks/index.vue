@@ -31,13 +31,14 @@ export default {
         let items = response.data.map(track => {
             return {
                 id: track.id,
+                number: track.track_index,
                 name: track.path.substring(track.path.lastIndexOf('\\') + 1),
             };
         });
         return {
             items: items,
             group: 'tracks',
-            itemRouteName: 'categories-categoryId-albums-albumId-tracks-trackId',
+            // itemRouteName: 'categories-categoryId-albums-albumId-tracks-trackId',
             itemRouteParams: { categoryId: params.categoryId, albumId: params.albumId, next: 'trackId' },
         };
     },
