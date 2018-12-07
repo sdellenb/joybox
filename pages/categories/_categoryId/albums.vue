@@ -18,14 +18,18 @@ export default {
     components: {
         GridView,
     },
-    async asyncData({ app }) {
-        const response = await app.$axios.$get('/api/v1/categories');
+    validate ({ params }) {
+        // Must be a number
+        return /^\d+$/.test(params.categoryId);
+    },
+    async asyncData({ app, params }) {
+        const response = await app.$axios.$get(`/api/v1/categories/${params.categoryId}/albums`);
         // Not sure how to handle response.status !== 'success'
         return {
             items: response.data,
-            group: 'categories',
-            itemRouteName: 'categories-categoryId-albums',
-            itemRouteParams: { next: 'categoryId' },
+            group: 'albums',
+            itemRouteName: 'categories-categoryId-albums-albumId-tracks',
+            itemRouteParams: { categoryId: params.categoryId, next: 'albumId' },
         };
     },
 };
