@@ -39,6 +39,7 @@ export default {
             items: items,
             group: 'tracks',
             // itemRouteName: 'categories-categoryId-albums-albumId-tracks-trackId',
+            itemRouteName: null,
             itemRouteParams: { categoryId: params.categoryId, albumId: params.albumId, next: 'trackId' },
         };
     },
