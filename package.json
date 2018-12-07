@@ -38,6 +38,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "eslint-plugin-vue-types": "^0.2.0",
