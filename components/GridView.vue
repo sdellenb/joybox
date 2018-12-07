@@ -14,8 +14,9 @@
                 :to="{ name: itemRouteName, params: createRouteParams(item.id) }"
             >
                 <div class="GridCellContent">
-                    <!-- TODO: Show thumbnail here. -->
-                    <span v-if="item.number" class="GridCellContentNumber">{{ item.number }}</span>
+                    <!-- Categories and albums (should) have a thumbnail, if not, show track number or text. -->
+                    <img v-if="item.thumbnail" :src="item.thumbnail" class="GridCellContentThumbnail" />
+                    <span v-else-if="item.number" class="GridCellContentNumber">{{ item.number }}</span>
                     <span v-else>{{ item.name }}</span>
                 </div>
             </nuxt-link>
@@ -93,6 +94,11 @@ $numberSize: 60px;
       text-align: center;
       width: $gridSize;
       height: $gridSize;
+
+      &Thumbnail {
+        width: $gridSize * 0.65;
+        height: $gridSize * 0.65;
+      }
 
       &Number {
           position: relative;

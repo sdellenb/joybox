@@ -7,9 +7,10 @@ const BASE_URL = '/api/v1/categories';
 router.get(BASE_URL, async (ctx) => {
     try {
         const categories = await queries.getCategories();
+        const categoriesWithThumbnails = addThumbnails(categories);
         ctx.body = {
             status: 'success',
-            data: categories,
+            data: categoriesWithThumbnails,
         };
     } catch (err) {
         console.log(err);
@@ -19,11 +20,12 @@ router.get(BASE_URL, async (ctx) => {
 router.get(`${BASE_URL}/:categoryId`, async (ctx) => {
     try {
         const {categoryId} = ctx.params;
-        const album = await queries.getSingleCategory(categoryId);
-        if (album.length) {
+        const category = await queries.getSingleCategory(categoryId);
+        const categoryWithThumbnail = addThumbnails(category);
+        if (categoryWithThumbnail.length) {
             ctx.body = {
                 status: 'success',
-                data: album,
+                data: categoryWithThumbnail,
             };
         } else {
             ctx.status = 404;
@@ -36,5 +38,22 @@ router.get(`${BASE_URL}/:categoryId`, async (ctx) => {
         console.log(err);
     }
 });
-  
+
+function addThumbnails(categories) {
+    return categories.map(category => {
+        switch (category.name) {
+            case 'audiobooks':
+                category.thumbnail = '/svg/audiobooks.svg';
+                break;
+            case 'music':
+                category.thumbnail = '/svg/music.svg';
+                break;
+            default:
+                category.thumbnail = '/svg/unknown.svg';
+        }
+        return category;
+    });
+}
+
 module.exports = router;
+
