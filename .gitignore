@@ -82,3 +82,6 @@ dist
 
 # Media Files
 media/
+
+# Generated thumbnails
+static/generated/thumbnails/

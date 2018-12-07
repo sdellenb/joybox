@@ -85,8 +85,10 @@ $numberSize: 60px;
     text-align: center;
     width: $gridSize;
     height: $gridSize;
-    background-color: pink;
+    background-color: transparent;
     border-radius: $gridSpacing;
+    border-width: thick;
+    border-style: solid;
 
     .GridCellContent {
       display: flex;
@@ -97,8 +99,10 @@ $numberSize: 60px;
       height: $gridSize;
 
       &Thumbnail {
-        width: $gridSize * 0.65;
-        height: $gridSize * 0.65;
+        // TODO: Great for the album covers, doesn't look so nice for the category SVGs.
+        width: $gridSize;
+        height: $gridSize;
+        border-radius: $gridSpacing;
       }
 
       &Number {
