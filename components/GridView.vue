@@ -1,23 +1,24 @@
 <template>
-    <div
-        v-if="items.length > 0"
-        v-touch:swipe="swipeHandler"
+    <div 
+        v-if="items.length > 0" 
         class="GridView"
     >
-        <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
-        <nuxt-link
+        <div
             v-for="item of items"
             :key="item.id"
-            :to="{ name: itemRouteName, params: createRouteParams(item.id) }"
+            class="GridCell"
         >
-            <!-- TODO: Show thumbnail here. -->
-            <div
-                :style="style"
-                class="GridCell"
+            <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
+            <nuxt-link
+                :to="{ name: itemRouteName, params: createRouteParams(item.id) }"
             >
-                {{ item.name }}
-            </div>
-        </nuxt-link>
+                <div class="GridCellContent">
+                    <!-- TODO: Show thumbnail here. -->
+                    {{ item.track_index && item.track_index }}
+                    {{ item.name }}
+                </div>
+            </nuxt-link>
+        </div>
     </div>
 </template>
 
@@ -31,67 +32,50 @@ export default {
         itemRouteName: VueTypes.string,
         itemRouteParams: VueTypes.object,
     },
-    computed: {
-        style() {
-            let backgroundColor = null;
-            switch(this.group) {
-            case 'categories':
-                backgroundColor='pink';
-                break;
-            case 'albums':
-                backgroundColor='purple';
-                break;
-            case 'tracks':
-                backgroundColor='green';
-                break;
-            default:
-                backgroundColor='red';
-            }
-            return `background-color: ${backgroundColor};`;
-        },
-    },
     methods: {
         createRouteParams(itemId) {
             const nextItemRouteParamName = this.itemRouteParams.next;
             let routeParams = Object.assign({}, this.itemRouteParams);
             routeParams[nextItemRouteParamName] = itemId;
-            console.log(this.itemRouteName);
-            console.log(routeParams);
             return routeParams;
-        },
-        swipeHandler: (direction) => {
-            console.log(`*** Swiped ${direction}`);  // May be left / right / top / bottom
         },
     },
 };
 </script>
 
 <style lang="scss">
-    $gridSize: 200px;
-    $gridSpacing: 10px;
+$gridSize: 200px;
+$gridSpacing: 10px;
 
-    .GridView {
-        height: 2 * $gridSize + $gridSpacing;
-        max-height: 2 * $gridSize + $gridSpacing;
-        width: 3 * $gridSize + 2 * $gridSpacing + $gridSize / 2; // Three and a half tiles.
-        overflow: auto; // Touch scrolling enabled.
-        display: grid;
-        grid-gap: $gridSpacing;
-        grid-template-rows: repeat(2, 200px);
-        grid-auto-flow: column;
+.GridView {
+  height: 2 * $gridSize + $gridSpacing;
+  max-height: 2 * $gridSize + $gridSpacing;
+  width: 3 * $gridSize + 2 * $gridSpacing + $gridSize / 2; // Three and a half tiles.
+  overflow: auto; // Touch scrolling enabled.
+  display: grid;
+  grid-gap: $gridSpacing;
+  grid-template-rows: repeat(2, 200px);
+  grid-auto-flow: column;
 
-        .GridCell {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            width: 200px;
-            height: 200px;
-            // background-color: pink;
-            border-width: 0px;
-            border-color: black;
-            border-radius: 10px;
-        }
+  .GridCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: $gridSize;
+    height: $gridSize;
+    background-color: pink;
+    border-radius: 10px;
+
+    .GridCellContent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: $gridSize;
+      height: $gridSize;
     }
+  }
+}
 
 </style>

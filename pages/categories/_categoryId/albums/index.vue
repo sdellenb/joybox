@@ -18,8 +18,8 @@ export default {
     components: {
         GridView,
     },
-    validate ({ params }) {
-        // Must be a number
+    validate({ params }) {
+    // Must be a number
         return /^\d+$/.test(params.categoryId);
     },
     async asyncData({ app, params }) {
@@ -38,11 +38,11 @@ export default {
 <style>
 
 .container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 </style>
