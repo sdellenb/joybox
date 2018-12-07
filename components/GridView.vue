@@ -58,6 +58,7 @@ $numberSize: 60px;
   display: grid;
   grid-gap: $gridSpacing;
   grid-template-rows: repeat(2, 200px);
+  grid-template-columns: 200px;
   grid-auto-flow: column;
 
   a {
