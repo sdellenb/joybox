@@ -7,7 +7,7 @@
         <GridCell
             v-for="item of items"
             :key="item.id"
-            :content="item.name"
+            :item="item"
         />
     </div>
 </template>
@@ -17,13 +17,13 @@ import GridCell from '~/components/GridCell.vue';
 
 // Dummy data for the Grid.
 const numCells = 10;
-const items = [];
+const albums = [];
 for(let i = 1; i <= numCells; i++) {
     const album = {
-        id: `${i}`,
+        id: `album-${i}`,
         name: `Album ${i}`,
     };
-    items.push(album);
+    albums.push(album);
 }
 
 export default {
@@ -31,7 +31,7 @@ export default {
         GridCell,
     },
     data: () => ({
-        items: items,
+        items: albums,
     }),
     methods: {
         swipeHandler: (direction) => {

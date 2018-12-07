@@ -1,18 +1,29 @@
 <template>
     <div
+        :id="item.id"
         class="GridCell"
-        @click="selectCell"
+        @click="selectCell($event)"
     >
-        {{ content }}
+        {{ item.name }}
     </div>
 </template>
 
 <script>
+const idRegExp = new RegExp(/^([a-z]+)-([0-9]+)$/);
+
 export default {
-    props: { content: { type: String, required: true } },
+    props: {
+        item: {
+            type: Object,
+            required: true,
+            // id must be a type string and a number with a hyphen in between.
+            validator: (value) => (idRegExp.test(value.id)),
+        },
+    },
     methods: {
-        selectCell: (args) => {
-            console.log(args);
+        selectCell: (event) => {
+            const [ /* unused */, type, id ] = idRegExp.exec(event.target.id);
+            console.log(`*** You selected ${type} with id '${id}'`);
         },
     },
 };
@@ -30,6 +41,10 @@ export default {
         border-width: 0px;
         border-color: black;
         border-radius: 10px;
+
+        &::selection {
+            background-color: purple;
+        }
     }
 
 </style>
