@@ -8,31 +8,23 @@
             v-for="item of items"
             :key="item.id"
             :item="item"
+            :group="group"
         />
     </div>
 </template>
 
 <script>
+import VueTypes from 'vue-types';
 import GridCell from '~/components/GridCell.vue';
-
-// Dummy data for the Grid.
-const numCells = 10;
-const albums = [];
-for(let i = 1; i <= numCells; i++) {
-    const album = {
-        id: `album-${i}`,
-        name: `Album ${i}`,
-    };
-    albums.push(album);
-}
 
 export default {
     components: {
         GridCell,
     },
-    data: () => ({
-        items: albums,
-    }),
+    props: {
+        items: VueTypes.arrayOf(Object).isRequired,
+        group: VueTypes.string.isRequired,
+    },
     methods: {
         swipeHandler: (direction) => {
             console.log(`*** Swiped ${direction}`);  // May be left / right / top / bottom

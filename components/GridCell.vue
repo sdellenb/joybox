@@ -1,6 +1,8 @@
 <template>
     <div
         :id="item.id"
+        :title="item.name"
+        :group="group"
         class="GridCell"
         @click="selectCell($event)"
     >
@@ -9,21 +11,17 @@
 </template>
 
 <script>
-const idRegExp = new RegExp(/^([a-z]+)-([0-9]+)$/);
+import VueTypes from 'vue-types';
 
 export default {
     props: {
-        item: {
-            type: Object,
-            required: true,
-            // id must be a type string and a number with a hyphen in between.
-            validator: (value) => (idRegExp.test(value.id)),
-        },
+        item: VueTypes.object.isRequired,
+        group: VueTypes.string.isRequired,
     },
     methods: {
         selectCell: (event) => {
-            const [ /* unused */, type, id ] = idRegExp.exec(event.target.id);
-            console.log(`*** You selected ${type} with id '${id}'`);
+            console.log(`*** You selected ${event.target.attributes.group.value} with id '${event.target.id}'`);
+            // TODO: Route to the page that fits the next level. Will need an additional property from the container.
         },
     },
 };
@@ -41,10 +39,6 @@ export default {
         border-width: 0px;
         border-color: black;
         border-radius: 10px;
-
-        &::selection {
-            background-color: purple;
-        }
     }
 
 </style>

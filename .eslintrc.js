@@ -16,11 +16,13 @@ module.exports = {
   },
   extends: [
     'plugin:vue/recommended',
-	  'eslint:recommended'
+    'plugin:vue-types/strongly-recommended',
+	  'eslint:recommended',
   ],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'vue-types',
   ],
   // add your custom rules here
   rules: {
