@@ -15,7 +15,7 @@
             >
                 <div class="GridCellContent">
                     <!-- Categories and albums (should) have a thumbnail, if not, show track number or text. -->
-                    <img v-if="item.thumbnail" :src="item.thumbnail" class="GridCellContentThumbnail" />
+                    <img v-if="item.thumbnail" :src="item.thumbnail" class="GridCellContentThumbnail" :class="{ WithBorder: item.thumbnailWithBorder }" />
                     <span v-else-if="item.number" class="GridCellContentNumber">{{ item.number }}</span>
                     <span v-else>{{ item.name }}</span>
                 </div>
@@ -99,10 +99,14 @@ $numberSize: 60px;
       height: $gridSize;
 
       &Thumbnail {
-        // TODO: Great for the album covers, doesn't look so nice for the category SVGs.
         width: $gridSize;
         height: $gridSize;
         border-radius: $gridSpacing;
+
+        &.WithBorder {
+            width: $gridSize * 0.65;
+            height: $gridSize * 0.65;
+        }
       }
 
       &Number {
