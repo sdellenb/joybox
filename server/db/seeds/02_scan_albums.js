@@ -94,6 +94,9 @@ async function scanCategory(id, name) {
 }
 
 async function processCoverImage(inputFilePath, thumbnailOutputFolder) {
+    // TODO: Move to global config file.
+    const thumbnailSize = 200;
+
     let thumbnailUuid = uuidv4();
     while (jetpack.exists(path.join(thumbnailOutputFolder, `${thumbnailUuid}.jpg`)) === 'file') {
         // In case we managed to produce a collision, find another uuid.
@@ -103,8 +106,8 @@ async function processCoverImage(inputFilePath, thumbnailOutputFolder) {
     const thumbnailOutputFile = path.join(thumbnailOutputFolder, `${thumbnailUuid}.jpg`);
 
     const resizeOptions = {
-        width: 200,
-        height: 200,
+        width: thumbnailSize,
+        height: thumbnailSize,
         fit: sharp.fit.outside,
         withoutEnlargement: true,
         position: 'right top',
@@ -113,6 +116,7 @@ async function processCoverImage(inputFilePath, thumbnailOutputFolder) {
     const data = await sharp(inputFilePath)
         .trim()
         .resize(resizeOptions)
+        .extract({left: 0, top: 0, width: thumbnailSize, height: thumbnailSize}) // if not square, keep the top part.
         .toFormat('jpeg')
         .toBuffer();
     await jetpack.writeAsync(thumbnailOutputFile, data);
