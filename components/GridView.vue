@@ -46,11 +46,14 @@ export default {
 </script>
 
 <style lang="scss">
+$pageMargin: 30px;
 $gridSize: 200px;
 $gridSpacing: 20px;
 $numberSize: 60px;
 
 .GridView {
+  margin: $pageMargin;
+  justify-content: left;
   height: 2 * $gridSize + $gridSpacing;
   max-height: 2 * $gridSize + $gridSpacing;
   width: 3 * $gridSize + 2 * $gridSpacing + $gridSize / 2; // Three and a half tiles.

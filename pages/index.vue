@@ -1,14 +1,10 @@
 <template>
-    <section class="container">
-        <div>
-            <GridView
-                :items="items"
-                :group="group"
-                :item-route-name="itemRouteName"
-                :item-route-params="itemRouteParams"
-            />
-        </div>
-    </section>
+    <GridView
+        :items="items"
+        :group="group"
+        :item-route-name="itemRouteName"
+        :item-route-params="itemRouteParams"
+    />
 </template>
 
 <script>
@@ -34,15 +30,3 @@ export default {
     },
 };
 </script>
-
-<style>
-
-.container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-</style>
