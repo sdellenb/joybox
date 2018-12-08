@@ -1,9 +1,21 @@
 <template>
     <div>
+        <AppHeader />
         <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
         <nuxt />
     </div>
 </template>
+
+<script>
+import AppHeader from '~/components/AppHeader';
+
+export default {
+    components: {
+        AppHeader,
+    },
+};
+</script>
+
 
 <style>
 html {
