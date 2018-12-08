@@ -52,11 +52,12 @@ async function scanCategory(id, name) {
 
     // TODO: Use jetpack.inspectTree instead?
     const foundFiles = await scanFolder(libraryPath, extensionsToIgnore);
+    const sortedFiles = foundFiles.sort();
     let categoryAlbums = [];
     let trackIndex = null;
     let currentAlbumName = null;
     let currentAlbum = null;
-    for (const filePath of foundFiles) {
+    for (const filePath of sortedFiles) {
         // Index 0 is 'media', index 1 is the category.
         const albumName = filePath.split(path.sep)[2];
         if (albumName !== currentAlbumName) {
