@@ -95,7 +95,7 @@ async function scanCategory(id, name) {
 
 async function processCoverImage(inputFilePath, thumbnailOutputFolder) {
     // TODO: Move to global config file.
-    const thumbnailSize = 200;
+    const thumbnailSize = 400;
 
     let thumbnailUuid = uuidv4();
     while (jetpack.exists(path.join(thumbnailOutputFolder, `${thumbnailUuid}.jpg`)) === 'file') {
@@ -109,7 +109,7 @@ async function processCoverImage(inputFilePath, thumbnailOutputFolder) {
         width: thumbnailSize,
         height: thumbnailSize,
         fit: sharp.fit.outside,
-        withoutEnlargement: true,
+        withoutEnlargement: false,
         position: 'right top',
     };
 

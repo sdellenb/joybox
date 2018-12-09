@@ -109,6 +109,7 @@ $numberSize: 60px;
         &.WithBorder {
             width: $gridSize * 0.65;
             height: $gridSize * 0.65;
+            border-radius: 0;
         }
       }
 
