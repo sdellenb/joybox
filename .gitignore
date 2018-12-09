@@ -85,3 +85,6 @@ media/
 
 # Generated thumbnails
 static/generated/thumbnails/
+
+# Never add the production database to the git repo.
+database/library.sqlite
