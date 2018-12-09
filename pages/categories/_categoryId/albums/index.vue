@@ -24,7 +24,7 @@ export default {
         return {
             items: response.data,
             group: 'albums',
-            itemRouteName: 'categories-categoryId-albums-albumId-tracks',
+            itemRouteName: 'categories-categoryId-albums-albumId-play',
             itemRouteParams: { categoryId: params.categoryId, next: 'albumId' },
         };
     },
