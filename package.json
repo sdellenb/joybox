@@ -27,6 +27,7 @@
     "fs-jetpack": "^2.2.0",
     "knex": "^0.15.2",
     "koa": "^2.6.2",
+    "koa-body": "^4.0.4",
     "koa-router": "^7.4.0",
     "nuxt": "^2.3.4",
     "recursive-readdir": "^2.2.2",
