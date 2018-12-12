@@ -113,11 +113,11 @@ $thumbnailSize: 400px + 2 * $albumBorder;
             }
             
             &.Fwd {
-                @include playback-button('/svg/forward.svg');
+                @include playback-button('/svg/fwd.svg');
             }
 
             &.Rwd {
-                @include playback-button('/svg/back.svg');
+                @include playback-button('/svg/rwd.svg');
             }
 
             &.Stop {
