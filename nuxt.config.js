@@ -60,8 +60,11 @@ module.exports = {
                     loader: 'eslint-loader',
                     exclude: /(node_modules)/,
                 });
-                config.devtool = '#source-map';
             }
+            if (ctx.isClient)
+                config.devtool = 'eval-source-map';
+            else
+                config.devtool = 'inline-source-map';
         },
     },
 
@@ -70,5 +73,5 @@ module.exports = {
     */
     axios: {
         // proxyHeaders: false
-    }
+    },
 };

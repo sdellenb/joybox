@@ -7,8 +7,17 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug Service",
-            "program": "${workspaceFolder}/src/server/index.js"
-        }
+            "name": "npm run dev-debug",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "dev-debug"
+            ],
+            "sourceMaps": true,
+            "port": 9229,
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
     ]
 }
