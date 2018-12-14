@@ -43,3 +43,10 @@ Playback control with omxplayer
 ```
 omxplayer -o alsa media/one_love.mp3
 ```
+
+Other omxplayer options
+```
+-l  --pos n                 Start position (hh:mm:ss)
+    --no-osd                Do not display status information on screen
+    --no-keys               Disable keyboard input (prevents hangs for certain TTYs)
+```

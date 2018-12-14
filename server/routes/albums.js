@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const KoaBody = require('koa-body');
+const Player = require('../utils/player');
 const queries = require('../db/queries/albums');
 const trackQueries = require('../db/queries/tracks');
 
@@ -42,19 +43,27 @@ router.get(`${BASE_URL}/:albumId`, async (ctx) => {
     }
 });
 
+// For more information on custom methods, see
+// https://cloud.google.com/apis/design/custom_methods
+// Note: The colon must be escaped, so koa doesn't interpret it as a parameter.
 router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
     try {
         const {categoryId, albumId} = ctx.params;
-        const body = ctx.request.body;
+        // TODO: Sanity checks on request body.
+        const trackId = ctx.request.body ? ctx.request.body.trackId : null;
+        const startPos = ctx.request.body ? ctx.request.body.startPos : null;
+
         let track = null;
-        if (body.trackId) {
-            track = await trackQueries.getSingleTrack(categoryId, albumId, body.trackId);
+        if (trackId) {
+            track = await trackQueries.getSingleTrack(categoryId, albumId, trackId);
         }
         else {
             track = await trackQueries.getFirstTrack(categoryId, albumId);
         }
         if (track.length) {
             // TODO: Start (interactable?) background process with the media player.
+            const player = new Player();
+            player.startPlayback(track[0].path, startPos); // Don't await.
             ctx.body = {
                 status: 'success',
                 data: track,
