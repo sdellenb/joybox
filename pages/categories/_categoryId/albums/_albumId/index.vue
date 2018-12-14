@@ -5,7 +5,7 @@
             <span v-else class="AlbumName">{{ album.name }}</span>
         </div>
         <div class="PlaybackControls">
-            <div class="PlaybackButton Play" />
+            <div class="PlaybackButton Play" @click="playAlbum" />
             <div class="PlaybackButton Pause" />
             <div class="PlaybackButton Rwd" />
             <div class="PlaybackButton Fwd" />
@@ -21,6 +21,12 @@ export default {
         // Must be numbers
         return /^\d+$/.test(params.categoryId) && /^\d+$/.test(params.albumId);
     },
+    data() {
+        return {
+            route : null,
+            currentTrackId: null,
+        };
+    },
     mounted() {
         const axios = this.$axios; // eslint-disable-line no-unused-vars
         // Code that will run only after the entire view has been rendered
@@ -28,6 +34,18 @@ export default {
             // TODO: Send a POST call to start playback on the backend.
             // const response = await axios.$post(`/api/v1/categories/${params.categoryId}/albums/`);
         });
+        this.route = this.$route;
+    },
+    methods: {
+        async playAlbum() {
+            let body = null;
+            if (this.currentTrackId) {
+                // Continue playback.
+                body = { trackId: this.currentTrackId };
+            }
+            const response = await this.$axios.$post(`/api/v1${this.route.path}:play`, body);
+            this.currentTrackId = response.data[0].id;
+        },
     },
     async asyncData({ app, params }) {
         const response = await app.$axios.$get(`/api/v1/categories/${params.categoryId}/albums/${params.albumId}`);

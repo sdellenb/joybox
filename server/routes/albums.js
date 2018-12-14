@@ -42,7 +42,7 @@ router.get(`${BASE_URL}/:albumId`, async (ctx) => {
     }
 });
 
-router.post(`${BASE_URL}/:albumId/play`, KoaBody(), async (ctx) => {
+router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
     try {
         const {categoryId, albumId} = ctx.params;
         const body = ctx.request.body;
