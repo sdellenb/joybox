@@ -2,8 +2,8 @@ const util = require('util');
 const execFile = util.promisify(require('child_process').execFile);
 const BasePlayer = require('./basePlayer');
 
-const _playerBinary = '/bin/omxplayer';
-const _playerDefaultOptions = ['-o alsa'];
+const _playerBinary = '/usr/bin/omxplayer';
+const _playerDefaultOptions = ['-o alsa --no-osd --no-keys'];
 const _playerSeekOption = '--pos ';
 
 module.exports = class OmxPlayer extends BasePlayer {
@@ -13,21 +13,33 @@ module.exports = class OmxPlayer extends BasePlayer {
         this.currentlyPlayingPath = null;
     }
 
-    async startPlayback(filepath, startPos = null) {
-        // TODO: Assert that the file exists.
-        const playerOptions = _playerDefaultOptions;
+    async startPlayback(filepath, startPos) {
+        if (filepath === this.currentlyPlayingPath) {
+            return;
+        }
+        else {
+            await this.stopPlayback();
+        }
+        let playerOptions = [..._playerDefaultOptions];
         if (startPos) {
             playerOptions.push(`${_playerSeekOption} ${startPos}`);
         }
+
+        // TODO: Assert that the file exists.
         this.currentlyPlayingPath = filepath;
-        const { error, stdout, stderr } = await execFile(_playerBinary, [...playerOptions, filepath]);
-        if (error) {
-            console.log(`OmxPlayer finished with stderr: ${stderr}`);
-            console.log(error);
-        }
-        else {
-            console.log(`OmxPlayer finished with stdout: ${stdout}`);
-        }
+        const escapedFilePath = filepath.replace(/(\s+)/g, '\\$1');
+        const promise = execFile(_playerBinary, [...playerOptions, escapedFilePath], {shell: true}); // Must be run in a shell.
+        return promise.then(result => {
+            console.log('OmxPlayer finished with stdout:');
+            console.log(result.stdout);
+            if (result.stderr) {
+                console.log('OmxPlayer finished with stderr:');
+                console.log(result.stderr);
+            }
+        })
+            .catch(reason => {
+                console.log(`OmxPlayer failed with: ${reason}`);
+            });
     }
 
     async stopPlayback() {
