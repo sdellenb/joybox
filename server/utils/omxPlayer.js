@@ -27,16 +27,16 @@ module.exports = class OmxPlayer extends BasePlayer {
 
         // TODO: Assert that the file exists.
         this.currentlyPlayingPath = filepath;
-        const escapedFilePath = filepath.replace(/(\s+)/g, '\\$1');
-        const promise = execFile(_playerBinary, [...playerOptions, escapedFilePath], {shell: true}); // Must be run in a shell.
-        return promise.then(result => {
-            console.log('OmxPlayer finished with stdout:');
-            console.log(result.stdout);
-            if (result.stderr) {
-                console.log('OmxPlayer finished with stderr:');
-                console.log(result.stderr);
-            }
-        })
+        const quotedFilePath = `"${filepath}"`; // Instead of escaping everything that must be, just use quotes.
+        execFile(_playerBinary, [...playerOptions, quotedFilePath], {shell: true}) // Must be run in a shell.
+            .then(result => {
+                console.log('OmxPlayer finished with stdout:');
+                console.log(result.stdout);
+                if (result.stderr) {
+                    console.log('OmxPlayer finished with stderr:');
+                    console.log(result.stderr);
+                }
+            })
             .catch(reason => {
                 console.log(`OmxPlayer failed with: ${reason}`);
             });
