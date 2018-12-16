@@ -6,7 +6,7 @@
         </div>
         <div class="PlaybackControls">
             <div class="PlaybackButton Play" @click="playAlbum" />
-            <div class="PlaybackButton Pause" />
+            <div class="PlaybackButton Pause"  @click="pauseAlbum" />
             <div class="PlaybackButton Rwd" />
             <div class="PlaybackButton Fwd" />
             <div class="PlaybackButton StartOver" />
@@ -45,6 +45,9 @@ export default {
             }
             const response = await this.$axios.$post(`/api/v1${this.route.path}:play`, body);
             this.currentTrackId = response.data[0].id;
+        },
+        async pauseAlbum() {
+            await this.$axios.$post(`/api/v1${this.route.path}:pause`);
         },
     },
     async asyncData({ app, params }) {

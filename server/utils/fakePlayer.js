@@ -24,7 +24,13 @@ module.exports = class FakePlayer extends BasePlayer {
         }
     }
 
+    async pausePlayback() {
+        // Nothing to do here. Sleep cannot be interrupted.
+        console.log('FakePlayer is pausing playback.');
+    }
+
     async stopPlayback() {
         // Nothing to do here. Sleep cannot be interrupted.
+        console.log('FakePlayer is stopping playback.');
     }
 };

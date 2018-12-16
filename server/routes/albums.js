@@ -61,7 +61,6 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
             track = await trackQueries.getFirstTrack(categoryId, albumId);
         }
         if (track.length) {
-            // TODO: Start (interactable?) background process with the media player.
             const player = new Player();
             player.startPlayback(track[0].path, startPos); // Don't await.
             ctx.body = {
@@ -75,6 +74,18 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
                 message: 'The requested track does not exist.',
             };
         }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post(`${BASE_URL}/:albumId\\:pause`, KoaBody(), async (ctx) => {
+    try {
+        const player = new Player();
+        player.pausePlayback(); // Don't await.
+        ctx.body = {
+            status: 'success',
+        };
     } catch (err) {
         console.log(err);
     }

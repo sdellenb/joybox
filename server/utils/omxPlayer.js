@@ -42,6 +42,24 @@ module.exports = class OmxPlayer extends BasePlayer {
             });
     }
 
+    async pausePlayback() {
+        // TODO: Use dbus-native instead of the script.
+        // --dest=org.mpris.MediaPlayer2.omxplayer /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:"org.mpris.MediaPlayer2.Player" string:"PlaybackStatus"
+        execFile(_dbusControlScript, ['pause'])
+            .then(result => {
+                console.log('OmxPlayer "pause" command finished with stdout:');
+                console.log(result.stdout);
+                if (result.stderr) {
+                    console.log('OmxPlayer "pause" command finished with stderr:');
+                    console.log(result.stderr);
+                }
+            })
+            .catch(reason => {
+                console.log(`OmxPlayer "pause" command failed with: ${reason}`);
+            });
+
+    }
+
     async stopPlayback() {
         // TODO: OMX Interaction via DBUS, see
         // https://github.com/popcornmix/omxplayer/blob/master/dbuscontrol.sh

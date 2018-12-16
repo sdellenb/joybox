@@ -25,6 +25,10 @@ module.exports = class Player {
         return _player.startPlayback(filepath, startPos);
     }
 
+    async pausePlayback() {
+        return _player.pausePlayback();
+    }
+
     async stopPlayback() {
         return _player.stopPlayback();
     }
