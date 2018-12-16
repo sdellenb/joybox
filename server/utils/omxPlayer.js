@@ -5,6 +5,7 @@ const BasePlayer = require('./basePlayer');
 const _playerBinary = '/usr/bin/omxplayer';
 const _playerDefaultOptions = ['-o alsa --no-osd --no-keys'];
 const _playerSeekOption = '--pos ';
+const _dbusControlScript = 'scripts/dbuscontrol.sh';
 
 module.exports = class OmxPlayer extends BasePlayer {
 
@@ -45,7 +46,7 @@ module.exports = class OmxPlayer extends BasePlayer {
     async pausePlayback() {
         // TODO: Use dbus-native instead of the script.
         // --dest=org.mpris.MediaPlayer2.omxplayer /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:"org.mpris.MediaPlayer2.Player" string:"PlaybackStatus"
-        execFile(_dbusControlScript, ['pause'])
+        execFile(_dbusControlScript, ['pause'], {shell: true})
             .then(result => {
                 console.log('OmxPlayer "pause" command finished with stdout:');
                 console.log(result.stdout);
