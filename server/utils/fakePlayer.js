@@ -1,5 +1,6 @@
 const util = require('util');
 const execFile = util.promisify(require('child_process').execFile);
+const { debug, error } = require('./logger');
 const BasePlayer = require('./basePlayer');
 
 const _playerBinary = 'sleep';
@@ -14,23 +15,27 @@ module.exports = class FakePlayer extends BasePlayer {
 
     // eslint-disable-next-line no-unused-vars
     async startPlayback(filepath, startPos = null) {
-        const { error, stdout, stderr } = await execFile(_playerBinary, _playerDefaultOptions);
-        if (error) {
-            console.log(`FakePlayer finished with stderr: ${stderr}`);
-            console.log(error);
-        }
-        else {
-            console.log(`FakePlayer finished with stdout: ${stdout}`);
-        }
+        execFile(_playerBinary, _playerDefaultOptions)
+            .then(result => {
+                debug('FakePlayer finished with stdout:');
+                debug(result.stdout);
+                if (result.stderr) {
+                    debug('FakePlayer finished with stderr:');
+                    debug(result.stderr);
+                }
+            })
+            .catch(reason => {
+                error(`FakePlayer failed with: ${reason}`);
+            });
     }
 
     async pausePlayback() {
         // Nothing to do here. Sleep cannot be interrupted.
-        console.log('FakePlayer is pausing playback.');
+        debug('FakePlayer is pausing playback.');
     }
 
     async stopPlayback() {
         // Nothing to do here. Sleep cannot be interrupted.
-        console.log('FakePlayer is stopping playback.');
+        debug('FakePlayer is stopping playback.');
     }
 };

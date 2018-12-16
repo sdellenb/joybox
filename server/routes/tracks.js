@@ -1,4 +1,5 @@
 const Router = require('koa-router');
+const { error } = require('../utils/logger');
 const queries = require('../db/queries/tracks');
 
 const router = new Router();
@@ -13,7 +14,7 @@ router.get(BASE_URL, async (ctx) => {
             data: tracks,
         };
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
   
@@ -34,7 +35,7 @@ router.get(`${BASE_URL}/:trackId`, async (ctx) => {
             };
         }
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
   

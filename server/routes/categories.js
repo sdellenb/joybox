@@ -1,4 +1,5 @@
 const Router = require('koa-router');
+const { error } = require('../utils/logger');
 const queries = require('../db/queries/categories');
 
 const router = new Router();
@@ -13,7 +14,7 @@ router.get(BASE_URL, async (ctx) => {
             data: categoriesWithThumbnails,
         };
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
   
@@ -35,7 +36,7 @@ router.get(`${BASE_URL}/:categoryId`, async (ctx) => {
             };
         }
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
 

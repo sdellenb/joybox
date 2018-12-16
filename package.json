@@ -7,7 +7,7 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "cross-env DEBUG=joybox:* NODE_ENV=development nodemon server/index.js --watch server",
     "dev-debug": "node --inspect server/index.js",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "cross-env": "^5.2.0",
+    "debug": "^4.1.0",
     "fs-jetpack": "^2.2.0",
     "knex": "^0.15.2",
     "koa": "^2.6.2",

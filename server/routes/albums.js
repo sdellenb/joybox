@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const KoaBody = require('koa-body');
+const { error } = require('../utils/logger');
 const Player = require('../utils/player');
 const queries = require('../db/queries/albums');
 const trackQueries = require('../db/queries/tracks');
@@ -17,7 +18,7 @@ router.get(BASE_URL, async (ctx) => {
             data: albumsWithThumbnail,
         };
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
   
@@ -39,7 +40,7 @@ router.get(`${BASE_URL}/:albumId`, async (ctx) => {
             };
         }
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
 
@@ -75,11 +76,11 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
             };
         }
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
 
-router.post(`${BASE_URL}/:albumId\\:pause`, KoaBody(), async (ctx) => {
+router.post(`${BASE_URL}/:albumId\\:pause`, async (ctx) => {
     try {
         const player = new Player();
         player.pausePlayback(); // Don't await.
@@ -87,7 +88,7 @@ router.post(`${BASE_URL}/:albumId\\:pause`, KoaBody(), async (ctx) => {
             status: 'success',
         };
     } catch (err) {
-        console.log(err);
+        error(err);
     }
 });
 

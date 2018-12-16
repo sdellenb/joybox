@@ -1,5 +1,6 @@
 const util = require('util');
 const execFile = util.promisify(require('child_process').execFile);
+const { debug, error } = require('./logger');
 const BasePlayer = require('./basePlayer');
 
 const _playerBinary = '/usr/bin/omxplayer';
@@ -31,15 +32,15 @@ module.exports = class OmxPlayer extends BasePlayer {
         const quotedFilePath = `"${filepath}"`; // Instead of escaping everything that must be, just use quotes.
         execFile(_playerBinary, [...playerOptions, quotedFilePath], {shell: true}) // Must be run in a shell.
             .then(result => {
-                console.log('OmxPlayer finished with stdout:');
-                console.log(result.stdout);
+                debug('OmxPlayer finished with stdout:');
+                debug(result.stdout);
                 if (result.stderr) {
-                    console.log('OmxPlayer finished with stderr:');
-                    console.log(result.stderr);
+                    debug('OmxPlayer finished with stderr:');
+                    debug(result.stderr);
                 }
             })
             .catch(reason => {
-                console.log(`OmxPlayer failed with: ${reason}`);
+                error(`OmxPlayer failed with: ${reason}`);
             });
     }
 
@@ -48,17 +49,16 @@ module.exports = class OmxPlayer extends BasePlayer {
         // --dest=org.mpris.MediaPlayer2.omxplayer /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:"org.mpris.MediaPlayer2.Player" string:"PlaybackStatus"
         execFile(_dbusControlScript, ['pause'], {shell: true})
             .then(result => {
-                console.log('OmxPlayer "pause" command finished with stdout:');
-                console.log(result.stdout);
+                debug('OmxPlayer "pause" command finished with stdout:');
+                debug(result.stdout);
                 if (result.stderr) {
-                    console.log('OmxPlayer "pause" command finished with stderr:');
-                    console.log(result.stderr);
+                    debug('OmxPlayer "pause" command finished with stderr:');
+                    debug(result.stderr);
                 }
             })
             .catch(reason => {
-                console.log(`OmxPlayer "pause" command failed with: ${reason}`);
+                error(`OmxPlayer "pause" command failed with: ${reason}`);
             });
-
     }
 
     async stopPlayback() {
