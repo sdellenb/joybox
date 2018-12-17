@@ -1,0 +1,12 @@
+.dockerignore
+.git/
+.gitattributes
+.gitignore
+.nuxt/
+.vscode/
+database/*.sqlite
+Dockerfile
+LICENSE
+media/
+node_modules/
+README.md
