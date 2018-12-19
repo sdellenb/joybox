@@ -5,12 +5,12 @@
             <span v-else class="AlbumName">{{ album.name }}</span>
         </div>
         <div class="PlaybackControls">
-            <div class="PlaybackButton Play" @click="playAlbum" />
-            <div class="PlaybackButton Pause"  @click="pauseAlbum" />
+            <div v-if="!currentlyPlaying" class="PlaybackButton Big Play" @click="playAlbum" />
+            <div v-else class="PlaybackButton Big Pause" @click="pauseAlbum" />
+            <div class="PlaybackButton StartOver" />
             <div class="PlaybackButton Rwd" />
             <div class="PlaybackButton Fwd" />
-            <div class="PlaybackButton StartOver" />
-            <div class="PlaybackButton Stop" />
+            <!-- <div class="PlaybackButton Stop" /> -->
         </div>
     </div>
 </template>
@@ -25,6 +25,7 @@ export default {
         return {
             route : null,
             currentTrackId: null,
+            currentlyPlaying: false,
         };
     },
     mounted() {
@@ -45,9 +46,12 @@ export default {
             }
             const response = await this.$axios.$post(`/api/v1${this.route.path}:play`, body);
             this.currentTrackId = response.data[0].id;
+            this.currentlyPlaying = true;
         },
         async pauseAlbum() {
             await this.$axios.$post(`/api/v1${this.route.path}:pause`);
+            // Don't reset this.currentTrackId, because we're just paused.
+            this.currentlyPlaying = !this.currentlyPlaying;
         },
     },
     async asyncData({ app, params }) {
@@ -97,17 +101,20 @@ $thumbnailSize: 400px + 2 * $albumBorder;
     }
 
     .PlaybackControls {
-        $buttonSize: 120px;
-        $buttonBorderRadius: $buttonSize / 10;
         $buttonBorderWidth: 2px;
-        $buttonImageSize: $buttonSize - 2* $buttonBorderRadius - 2 * $buttonBorderWidth;
+        $buttonSize: 90px;
+        $buttonBorderRadius: $buttonSize / 10;
+        $buttonImageSize: ($buttonSize - 2 * $buttonBorderRadius - 2 * $buttonBorderWidth) !default;
+        $largeButtonSize: 300px;
+        $largeButtonBorderRadius: $largeButtonSize / 10;
+        $largeButtonImageSize: $largeButtonSize - 2 * $largeButtonBorderRadius - 2 * $buttonBorderWidth;
 
         margin-left: 20px;
         height: $thumbnailSize;
         display: grid;
         grid-gap: $buttonSize / 6;
         grid-template-rows: $buttonSize;
-        grid-template-columns: repeat(2, $buttonSize);
+        grid-template-columns: repeat(3, $buttonSize);
         grid-auto-flow: row;
 
         .PlaybackButton {
@@ -116,38 +123,52 @@ $thumbnailSize: 400px + 2 * $albumBorder;
             padding: $buttonBorderRadius;
             border-radius: $buttonBorderRadius;
             border: 2px solid black;
+            grid-row-start: 3;
 
-            @mixin playback-button($url) {
+            @mixin playback-button($url, $imageSize: $buttonImageSize) {
                 background: url($url);
                 background-repeat: no-repeat;
-                background-size: $buttonImageSize;
+                background-size: $imageSize;
                 background-origin: content-box;
             }
 
-            &.Play {
-                @include playback-button('/svg/play.svg');
-                filter: invert(.5) sepia(1) saturate(5) hue-rotate(220deg); // Turn it purple!
+            &.Big {
+                $buttonRatio: 3;
+                width: $largeButtonSize;
+                height: $largeButtonSize;
+                border-radius: $largeButtonBorderRadius;
+                padding: $largeButtonBorderRadius;
+                grid-column-start: 1;
+                grid-column-end: 3;
+                grid-row-start: 1;
+                grid-row-end: 3;
+
+                &.Play {
+                    @include playback-button('/svg/play.svg', $largeButtonImageSize);
+                    // filter: invert(.5) sepia(1) saturate(5) hue-rotate(220deg); // Turn it purple!
+                }
+
+                &.Pause {
+                    @include playback-button('/svg/pause.svg', $largeButtonImageSize);
+                }
+
             }
 
-            &.Pause {
-                @include playback-button('/svg/pause.svg');
-            }
-            
-            &.Fwd {
-                @include playback-button('/svg/fwd.svg');
+            &.StartOver {
+                @include playback-button('/svg/start.svg');
             }
 
             &.Rwd {
                 @include playback-button('/svg/rwd.svg');
             }
 
-            &.Stop {
-                @include playback-button('/svg/stop.svg');
+            &.Fwd {
+                @include playback-button('/svg/fwd.svg');
             }
 
-            &.StartOver {
-                @include playback-button('/svg/start.svg');
-            }
+            // &.Stop {
+            //     @include playback-button('/svg/stop.svg');
+            // }
         }
     }
 }
