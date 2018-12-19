@@ -23,8 +23,9 @@ module.exports = class OmxPlayer extends BasePlayer {
             return;
         }
 
-        // TODO: How to handle a playback request of what is already playing?
-        if (filepath === this.currentlyPlayingPath) {
+        // If we're still on the same file, continue playing.
+        if (filepath === omx.getCurrentPath()) {
+            await this.pausePlayback();
             return;
         }
         else {
