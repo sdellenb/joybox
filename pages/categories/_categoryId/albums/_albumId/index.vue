@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$pageMargin: 40px;
+$pageMargin: 40px 20px 20px 40px;
 $albumBorder: 3px;
 $thumbnailSize: 400px + 2 * $albumBorder;
 
@@ -75,6 +75,10 @@ $thumbnailSize: 400px + 2 * $albumBorder;
   height: $thumbnailSize;
   display: flex;
   justify-content: left;
+
+  &::-webkit-scrollbar {
+      display: none;
+  }
   
     .AlbumCell {
         flex-direction: left;

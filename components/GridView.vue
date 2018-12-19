@@ -57,12 +57,17 @@ $numberSize: 60px;
   height: 2 * $gridSize + $gridSpacing;
   max-height: 2 * $gridSize + $gridSpacing;
   width: 3 * $gridSize + 2 * $gridSpacing + $gridSize / 2; // Three and a half tiles.
-  overflow: auto; // Touch scrolling enabled.
+  overflow: auto; // Horizontal touch scrolling enabled.
   display: grid;
   grid-gap: $gridSpacing;
   grid-template-rows: repeat(2, 200px);
   grid-template-columns: 200px;
   grid-auto-flow: column;
+
+  &::-webkit-scrollbar {
+      // We want scrolling, but no scroll bar.
+      display: none;
+  }
 
   a {
       color: black;
