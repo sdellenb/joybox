@@ -39,12 +39,14 @@ module.exports = class OmxPlayer extends BasePlayer {
         }
 
         this.currentlyPlayingPath = filepath;
-        omx.open(filepath, playerOptions);
-
-        omx.onProgress(function(track){ //subscribe for track updates (every second while not paused for now)
-            debug(track.position);
-            debug(track.duration);
+        const playbackFinishedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
+            const onPlaybackFinished = function() {
+                debug('Playback has finished. Resolving promise to play next track.');
+                resolve();
+            };
+            omx.open(filepath, playerOptions, onPlaybackFinished);
         });
+        return playbackFinishedPromise;
     }
 
     async pausePlayback() {

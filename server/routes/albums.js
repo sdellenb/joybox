@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const KoaBody = require('koa-body');
-const { error } = require('../utils/logger');
+const { debug, error } = require('../utils/logger');
 const Player = require('../utils/player');
 const queries = require('../db/queries/albums');
 const trackQueries = require('../db/queries/tracks');
@@ -54,19 +54,26 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
         const trackId = ctx.request.body ? ctx.request.body.trackId : null;
         const startPos = ctx.request.body ? ctx.request.body.startPos : null;
 
-        let track = null;
+        let tracks = null;
         if (trackId) {
-            track = await trackQueries.getSingleTrack(categoryId, albumId, trackId);
+            tracks = await trackQueries.getSingleTrack(categoryId, albumId, trackId);
         }
         else {
-            track = await trackQueries.getFirstTrack(categoryId, albumId);
+            tracks = await trackQueries.getFirstTrack(categoryId, albumId);
         }
-        if (track.length) {
+        if (tracks.length) {
             const player = new Player();
-            player.startPlayback(track[0].path, startPos); // Don't await.
+            // TODO: Pass whole track row so the promise can be resolved with all information.
+            player.startPlayback(tracks[0].path, startPos)
+                .then(() => {
+                    debug(`Moving on to next track: categoryId: ${categoryId}, albumId: ${albumId}, trackId: ${tracks[0].id}`);
+                    playNextTrack(categoryId, albumId, tracks[0].id)
+                        .catch(err => error(err));
+                });
+            // Don't wait to send a response.
             ctx.body = {
                 status: 'success',
-                data: track,
+                data: tracks,
             };
         } else {
             ctx.status = 404;
@@ -91,6 +98,59 @@ router.post(`${BASE_URL}/:albumId\\:pause`, async (ctx) => {
         error(err);
     }
 });
+
+router.post(`${BASE_URL}/:albumId\\:fwd`, KoaBody(), async (ctx) => {
+    try {
+        const {categoryId, albumId} = ctx.params;
+        const trackId = ctx.request.body && Number.isInteger(ctx.request.body.trackId) ? ctx.request.body.trackId : null;
+
+        playNextTrack(categoryId, albumId, trackId).then(
+            (track) => {
+                ctx.body = {
+                    status: 'success',
+                    data: track,
+                };
+            },
+            (errorMessage) => {
+                ctx.status = 404;
+                ctx.body = {
+                    status: 'error',
+                    message: errorMessage,
+                };
+    
+            }
+        );
+    } catch (err) {
+        error(err);
+    }
+});
+
+async function playNextTrack(categoryId, albumId, trackId) {
+    return new Promise(async function(resolve, reject) {
+        let tracks = null ;
+        if (trackId) {
+            tracks = await trackQueries.getNextTrack(categoryId, albumId, trackId);
+        }
+        if (!tracks) {
+            tracks = await trackQueries.getFirstTrack(categoryId, albumId);
+        }
+        if (tracks.length) {
+            resolve(tracks); // We found a track that we're going to play. Respond to client.
+            const player = new Player();
+            // TODO: Pass whole track row so the promise can be resolved with all information.
+            player.startPlayback(tracks[0].path)
+                .then(async () => {
+                    debug(`Moving on to next track: categoryId: ${categoryId}, albumId: ${albumId}, trackId: ${tracks[0].id}`);
+                    playNextTrack(categoryId, albumId, tracks[0].id)
+                        .catch(err => error(err));
+                    // TODO: Notify client about track change.
+                });
+        }
+        else {
+            reject('The requested track does not exist or the end of the album was reached.');
+        }    
+    });
+}
 
 function setThumbnailPath(albums) {
     return albums.map(album => {

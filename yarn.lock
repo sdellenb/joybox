@@ -5889,9 +5889,10 @@ object.values@^1.0.4:
     has "^1.0.1"
 
 "omx-interface@https://github.com/sdellenb/node-omx-interface":
-  version "1.4.0"
-  resolved "https://github.com/sdellenb/node-omx-interface#aea86829a85c28217fdee1633eb5c3549579fc20"
+  version "1.5.0"
+  resolved "https://github.com/sdellenb/node-omx-interface#93a174668c6b00eeacebf509c59f34de53d7e019"
   dependencies:
+    debug "^4.1.0"
     jsonfile "^2.4.0"
 
 on-finished@^2.3.0, on-finished@~2.3.0:

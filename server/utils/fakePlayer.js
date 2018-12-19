@@ -15,18 +15,17 @@ module.exports = class FakePlayer extends BasePlayer {
 
     // eslint-disable-next-line no-unused-vars
     async startPlayback(filepath, startPos = null) {
-        execFile(_playerBinary, _playerDefaultOptions)
-            .then(result => {
-                debug('FakePlayer finished with stdout:');
-                debug(result.stdout);
-                if (result.stderr) {
-                    debug('FakePlayer finished with stderr:');
-                    debug(result.stderr);
-                }
-            })
-            .catch(reason => {
-                error(`FakePlayer failed with: ${reason}`);
-            });
+        const playbackFinishedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
+            execFile(_playerBinary, _playerDefaultOptions)
+                .then(() => {
+                    debug('Playback has finished. Resolving promise to play next track.');
+                    resolve();
+                })
+                .catch(reason => {
+                    error(`FakePlayer failed with: ${reason}`);
+                });
+        });
+        return playbackFinishedPromise;
     }
 
     async pausePlayback() {
