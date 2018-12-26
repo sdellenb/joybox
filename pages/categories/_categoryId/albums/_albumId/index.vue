@@ -3,6 +3,7 @@
         <div class="AlbumCell">
             <img v-if="album.thumbnail" :src="album.thumbnail" class="AlbumThumbnail" />
             <span v-else class="AlbumName">{{ album.name }}</span>
+            <span v-if="currentlyPlaying" class="TrackNumber">{{ currentTrack.track_index }}</span>
         </div>
         <div class="PlaybackControls">
             <div v-if="!currentlyPlaying || isPaused" class="PlaybackButton Big Play" @click="playAlbum" />
@@ -24,7 +25,7 @@ export default {
     data() {
         return {
             route : null,
-            currentTrackId: null,
+            currentTrack: null,
             currentlyPlaying: false,
             isPaused: false,
         };
@@ -47,21 +48,21 @@ export default {
 
             es.addEventListener('playback-started', event => {
                 let track = JSON.parse(event.data);
-                this.currentTrackId = track.id;
+                this.currentTrack = track;
                 this.currentlyPlaying = true;
                 this.isPaused = false;
             }, false);
 
             es.addEventListener('playback-paused', event => {
                 let track = JSON.parse(event.data);
-                this.currentTrackId = track.id;
+                this.currentTrack = track;
                 this.currentlyPlaying = true;
                 this.isPaused = true;
             }, false);
 
             es.addEventListener('playback-finished', event => {
                 let track = JSON.parse(event.data);
-                this.currentTrackId = track.id;
+                this.currentTrack = track;
                 this.currentlyPlaying = false;
                 this.isPaused = false;
                 this.forwardTrack();
@@ -76,9 +77,9 @@ export default {
         },
         playAlbum() {
             let body = null;
-            if (this.currentTrackId) {
+            if (this.currentTrack) {
                 // Continue playback.
-                body = { trackId: this.currentTrackId };
+                body = { trackId: this.currentTrack.id };
             }
             this.$axios.$post(`/api/v1${this.route.path}:play`, body);
         },
@@ -87,9 +88,9 @@ export default {
         },
         forwardTrack() {
             let body = null;
-            if (this.currentTrackId) {
-                // Continue playback.
-                body = { trackId: this.currentTrackId };
+            if (this.currentTrack) {
+                // Continue playback with next track.
+                body = { trackId: this.currentTrack.id };
             }
             this.$axios.$post(`/api/v1${this.route.path}:fwd`, body);
         },
@@ -140,6 +141,17 @@ $thumbnailSize: 400px + 2 * $albumBorder;
 
         .AlbumName {
             font-size: 32px;
+        }
+
+        .TrackNumber {
+            position: fixed;
+            font-size: 40pt;
+            bottom: 40px;
+            left: 360px;
+            background-color: rgba(255, 255, 255, 0.7);
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
         }
 
     }
