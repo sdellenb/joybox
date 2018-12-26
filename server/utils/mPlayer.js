@@ -21,7 +21,7 @@ module.exports = class MPlayer extends BasePlayer {
         if (mplayer.isPlaying || mplayer.isPaused) {
             // If we're still on the same file, continue playing.
             if (this.currentlyPlayingTrack && this.currentlyPlayingTrack.path === filepath) {
-                return this.pausePlayback(track);
+                return this.pausePlayback(this.currentlyPlayingTrack);
             }
             else {
                 await this.stopPlayback(this.currentlyPlayingTrack);
@@ -70,7 +70,7 @@ module.exports = class MPlayer extends BasePlayer {
         const playbackStoppedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
             if (mplayer.isPlaying || mplayer.isPaused) {
                 debug(`MPlayer is stopping playback of ${JSON.stringify(track)}.`);
-                mplayer.once('stop', () => {
+                mplayer.once('exit', () => {
                     debug(`MPlayer stopped playback of ${JSON.stringify(track)}.`);
                     resolve(track);
                 });

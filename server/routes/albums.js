@@ -3,6 +3,7 @@ const KoaBody = require('koa-body');
 
 const { debug, error } = require('../utils/logger');
 const Player = require('../utils/player');
+const player = new Player();
 const PlayerStatus = require('../utils/playerStatus');
 const playerStatus = new PlayerStatus().instance;
 const queries = require('../db/queries/albums');
@@ -65,7 +66,6 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
             tracks = await trackQueries.getFirstTrack(categoryId, albumId);
         }
         if (tracks.length) {
-            const player = new Player();
             // Don't await to send a response.
             player.startPlayback(tracks[0], options)
                 .then((track) => {
@@ -93,7 +93,6 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
 
 router.post(`${BASE_URL}/:albumId\\:pause`, async (ctx) => {
     try {
-        const player = new Player();
         // Don't await to send a response.
         player.pausePlayback()
             .then((track) => {
@@ -120,12 +119,8 @@ router.post(`${BASE_URL}/:albumId\\:fwd`, KoaBody(), async (ctx) => {
         if (trackId) {
             tracks = await trackQueries.getNextTrack(categoryId, albumId, trackId);
         }
-        if (!tracks) {
-            tracks = await trackQueries.getFirstTrack(categoryId, albumId);
-        }
-        if (tracks.length) {
+        if (tracks && tracks.length) {
             debug(`Moving on to next track: categoryId: ${categoryId}, albumId: ${albumId}, trackId: ${tracks[0].id}`);
-            const player = new Player();
             // Don't await to send a response.
             player.startPlayback(tracks[0])
                 .then((track) => {

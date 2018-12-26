@@ -5,11 +5,11 @@
             <span v-else class="AlbumName">{{ album.name }}</span>
         </div>
         <div class="PlaybackControls">
-            <div v-if="!currentlyPlaying" class="PlaybackButton Big Play" @click="playAlbum" />
+            <div v-if="!currentlyPlaying || isPaused" class="PlaybackButton Big Play" @click="playAlbum" />
             <div v-else class="PlaybackButton Big Pause" @click="pauseAlbum" />
-            <div class="PlaybackButton StartOver" />
-            <div class="PlaybackButton Rwd" />
-            <div class="PlaybackButton Fwd" />
+            <div class="PlaybackButton StartOver Disabled" />
+            <div class="PlaybackButton Rwd Disabled" />
+            <div class="PlaybackButton Fwd" :class="{ Disabled: !currentlyPlaying }" @click="forwardTrack" />
             <!-- <div class="PlaybackButton Stop" /> -->
         </div>
     </div>
@@ -46,22 +46,25 @@ export default {
             let es = new EventSource('/api/v1/status');
 
             es.addEventListener('playback-started', event => {
-                let data = JSON.parse(event.data);
-                this.currentTrackId = data.trackId;
+                let track = JSON.parse(event.data);
+                this.currentTrackId = track.id;
                 this.currentlyPlaying = true;
+                this.isPaused = false;
             }, false);
 
             es.addEventListener('playback-paused', event => {
-                let data = JSON.parse(event.data);
-                this.currentTrackId = data.trackId;
+                let track = JSON.parse(event.data);
+                this.currentTrackId = track.id;
                 this.currentlyPlaying = true;
                 this.isPaused = true;
             }, false);
 
             es.addEventListener('playback-finished', event => {
-                let data = JSON.parse(event.data);
-                this.currentTrackId = data.trackId;
+                let track = JSON.parse(event.data);
+                this.currentTrackId = track.id;
                 this.currentlyPlaying = false;
+                this.isPaused = false;
+                this.forwardTrack();
             }, false);
 
             es.addEventListener('error', event => {
@@ -71,20 +74,24 @@ export default {
                 }
             }, false);
         },
-        async playAlbum() {
+        playAlbum() {
             let body = null;
             if (this.currentTrackId) {
                 // Continue playback.
                 body = { trackId: this.currentTrackId };
             }
-            const response = await this.$axios.$post(`/api/v1${this.route.path}:play`, body);
-            this.currentTrackId = response.data[0].id;
-            this.currentlyPlaying = true;
+            this.$axios.$post(`/api/v1${this.route.path}:play`, body);
         },
-        async pauseAlbum() {
-            await this.$axios.$post(`/api/v1${this.route.path}:pause`);
-            // Don't reset this.currentTrackId, because we're just paused.
-            this.currentlyPlaying = !this.currentlyPlaying;
+        pauseAlbum() {
+            this.$axios.$post(`/api/v1${this.route.path}:pause`);
+        },
+        forwardTrack() {
+            let body = null;
+            if (this.currentTrackId) {
+                // Continue playback.
+                body = { trackId: this.currentTrackId };
+            }
+            this.$axios.$post(`/api/v1${this.route.path}:fwd`, body);
         },
     },
     async asyncData({ app, params }) {
@@ -167,6 +174,10 @@ $thumbnailSize: 400px + 2 * $albumBorder;
                 background-repeat: no-repeat;
                 background-size: $imageSize;
                 background-origin: content-box;
+            }
+
+            &.Disabled {
+                filter: invert(.5) saturate(0);
             }
 
             &.Big {
