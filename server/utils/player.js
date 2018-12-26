@@ -2,10 +2,12 @@ const environment = process.env.NODE_ENV || 'development';
 const JoyboxConfig = require('../../joybox.config');
 const OmxPlayer = require('./omxPlayer');
 const FakePlayer = require('./fakePlayer');
+const MPlayer = require('./mPlayer');
 
 const players = {
     OmxPlayer,
     FakePlayer,
+    MPlayer,
 };
 
 let _player = null;
@@ -25,11 +27,11 @@ module.exports = class Player {
         return _player.startPlayback(track, options);
     }
 
-    async pausePlayback() {
-        return _player.pausePlayback();
+    async pausePlayback(track) {
+        return _player.pausePlayback(track);
     }
 
-    async stopPlayback() {
-        return _player.stopPlayback();
+    async stopPlayback(track) {
+        return _player.stopPlayback(track);
     }
 };

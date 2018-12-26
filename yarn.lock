@@ -6254,6 +6254,11 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
+play-sound-mplayer@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/play-sound-mplayer/-/play-sound-mplayer-0.0.6.tgz#af81ec09feb10eea774b72544b99fe5edd5f02ce"
+  integrity sha512-1z6ZMa62fipG7vp8xu5KNEYvY2CqJA1pcdzZHrfV/gQpmmjbNYSusVrQ6mPRQQz1Hdc8/dRub59twQUNojVURQ==
+
 pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"

@@ -3,7 +3,7 @@ module.exports = {
         player: 'FakePlayer', // TODO: Make a TestPlayer.
     },
     development: {
-        player: 'FakePlayer',
+        player: 'MPlayer',
     },
     production: {
         player: 'OmxPlayer',

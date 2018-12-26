@@ -1,9 +1,9 @@
 const Router = require('koa-router');
 const KoaBody = require('koa-body');
-const sse = require('sse-broadcast')();
 
 const { debug, error } = require('../utils/logger');
 const Player = require('../utils/player');
+const PlayerStatus = require('../utils/playerStatus');
 const queries = require('../db/queries/albums');
 const trackQueries = require('../db/queries/tracks');
 
@@ -68,16 +68,16 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
             // Don't await to send a response.
             player.startPlayback(tracks[0], options)
                 .then((track) => {
-                    sse.sendEvent(ctx.res, 'playback-finished', track);
+                    PlayerStatus.sendEvent('playback-finished', track);
                 })
                 .catch(error => {
-                    sse.sendEvent(ctx.res, 'error', error);
+                    PlayerStatus.sendEvent('error', error);
                 });
             ctx.body = {
                 status: 'success',
                 data: tracks,
             };
-            sse.sendEvent(ctx.res, 'playback-started', tracks[0]);
+            PlayerStatus.sendEvent('playback-started', tracks[0]);
         } else {
             ctx.status = 404;
             ctx.body = {
@@ -96,10 +96,10 @@ router.post(`${BASE_URL}/:albumId\\:pause`, async (ctx) => {
         // Don't await to send a response.
         player.pausePlayback()
             .then((track) => {
-                sse.sendEvent(ctx.res, 'playback-paused', track);
+                PlayerStatus.sendEvent('playback-paused', track);
             })
             .catch(error => {
-                sse.sendEvent(ctx.res, 'error', error);
+                PlayerStatus.sendEvent('error', error);
             });
 
         ctx.body = {
@@ -128,17 +128,17 @@ router.post(`${BASE_URL}/:albumId\\:fwd`, KoaBody(), async (ctx) => {
             // Don't await to send a response.
             player.startPlayback(tracks[0])
                 .then((track) => {
-                    sse.sendEvent(ctx.res, 'playback-finished', track);
+                    PlayerStatus.sendEvent('playback-finished', track);
                 })
                 .catch(error => {
-                    sse.sendEvent(ctx.res, 'error', error);
+                    PlayerStatus.sendEvent('error', error);
                 });
 
             ctx.body = {
                 status: 'success',
                 data: tracks,
             };
-            sse.sendEvent(ctx.res, 'playback-started', tracks[0]);
+            PlayerStatus.sendEvent('playback-started', tracks[0]);
         } else {
             ctx.status = 404;
             ctx.body = {

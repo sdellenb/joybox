@@ -39,7 +39,7 @@ module.exports = class OmxPlayer extends BasePlayer {
 
         const playbackFinishedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
             const onPlaybackFinished = function() {
-                debug('Playback has finished. Resolving promise to play next track.');
+                debug('Playback has finished.');
                 resolve(track);
             };
             omx.open(filepath, playerOptions, onPlaybackFinished);
