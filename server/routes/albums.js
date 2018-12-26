@@ -4,6 +4,7 @@ const KoaBody = require('koa-body');
 const { debug, error } = require('../utils/logger');
 const Player = require('../utils/player');
 const PlayerStatus = require('../utils/playerStatus');
+const playerStatus = new PlayerStatus().instance;
 const queries = require('../db/queries/albums');
 const trackQueries = require('../db/queries/tracks');
 
@@ -68,16 +69,16 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
             // Don't await to send a response.
             player.startPlayback(tracks[0], options)
                 .then((track) => {
-                    PlayerStatus.sendEvent('playback-finished', track);
+                    playerStatus.publish('playback-finished', track);
                 })
                 .catch(error => {
-                    PlayerStatus.sendEvent('error', error);
+                    playerStatus.publish('error', error);
                 });
             ctx.body = {
                 status: 'success',
                 data: tracks,
             };
-            PlayerStatus.sendEvent('playback-started', tracks[0]);
+            playerStatus.publish('playback-started', tracks[0]);
         } else {
             ctx.status = 404;
             ctx.body = {
@@ -96,10 +97,10 @@ router.post(`${BASE_URL}/:albumId\\:pause`, async (ctx) => {
         // Don't await to send a response.
         player.pausePlayback()
             .then((track) => {
-                PlayerStatus.sendEvent('playback-paused', track);
+                playerStatus.publish('playback-paused', track);
             })
             .catch(error => {
-                PlayerStatus.sendEvent('error', error);
+                playerStatus.publish('error', error);
             });
 
         ctx.body = {
@@ -128,17 +129,17 @@ router.post(`${BASE_URL}/:albumId\\:fwd`, KoaBody(), async (ctx) => {
             // Don't await to send a response.
             player.startPlayback(tracks[0])
                 .then((track) => {
-                    PlayerStatus.sendEvent('playback-finished', track);
+                    playerStatus.publish('playback-finished', track);
                 })
                 .catch(error => {
-                    PlayerStatus.sendEvent('error', error);
+                    playerStatus.publish('error', error);
                 });
 
             ctx.body = {
                 status: 'success',
                 data: tracks,
             };
-            PlayerStatus.sendEvent('playback-started', tracks[0]);
+            playerStatus.publish('playback-started', tracks[0]);
         } else {
             ctx.status = 404;
             ctx.body = {
