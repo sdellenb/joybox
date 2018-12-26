@@ -14,10 +14,10 @@ module.exports = class OmxPlayer extends BasePlayer {
 
     constructor() {
         super();
-        this.currentlyPlayingPath = null;
     }
 
-    async startPlayback(filepath, startPos) {
+    async startPlayback(track, options) {
+        const filepath = track.path;
         // TODO: Introduce custom exceptions the return the proper status?
         if (jetpack.exists(filepath) !== 'file') {
             return;
@@ -25,35 +25,41 @@ module.exports = class OmxPlayer extends BasePlayer {
 
         // If we're still on the same file, continue playing.
         if (filepath === omx.getCurrentPath()) {
-            await this.pausePlayback();
-            return;
+            return this.pausePlayback(track);
         }
         else {
-            await this.stopPlayback();
+            await this.stopPlayback(track);
         }
 
         // Copy the default options, and amend if necessary.
         let playerOptions = Object.assign({}, _defaultOptions);
-        if (startPos) {
-            playerOptions.startAt = startPos;
+        if (options && options.startPos) {
+            playerOptions.startAt = options.startPos;
         }
 
-        this.currentlyPlayingPath = filepath;
         const playbackFinishedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
             const onPlaybackFinished = function() {
                 debug('Playback has finished. Resolving promise to play next track.');
-                resolve();
+                resolve(track);
             };
             omx.open(filepath, playerOptions, onPlaybackFinished);
         });
         return playbackFinishedPromise;
     }
 
-    async pausePlayback() {
-        omx.togglePlay();
+    async pausePlayback(track) {
+        const playbackPausedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
+            omx.togglePlay();
+            resolve(track);
+        });
+        return playbackPausedPromise;
     }
 
-    async stopPlayback() {
-        omx.stop();
+    async stopPlayback(track) {
+        const playbackStoppedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
+            omx.stop();
+            resolve(track);
+        });
+        return playbackStoppedPromise;
     }
 };

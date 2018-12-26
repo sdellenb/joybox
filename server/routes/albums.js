@@ -1,5 +1,7 @@
 const Router = require('koa-router');
 const KoaBody = require('koa-body');
+const sse = require('sse-broadcast')();
+
 const { debug, error } = require('../utils/logger');
 const Player = require('../utils/player');
 const queries = require('../db/queries/albums');
@@ -52,7 +54,7 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
         const {categoryId, albumId} = ctx.params;
         // TODO: Sanity checks on request body.
         const trackId = ctx.request.body ? ctx.request.body.trackId : null;
-        const startPos = ctx.request.body ? ctx.request.body.startPos : null;
+        const options = ctx.request.body ? ctx.request.body.options : null;
 
         let tracks = null;
         if (trackId) {
@@ -63,18 +65,19 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
         }
         if (tracks.length) {
             const player = new Player();
-            // TODO: Pass whole track row so the promise can be resolved with all information.
-            player.startPlayback(tracks[0].path, startPos)
-                .then(() => {
-                    debug(`Moving on to next track: categoryId: ${categoryId}, albumId: ${albumId}, trackId: ${tracks[0].id}`);
-                    playNextTrack(categoryId, albumId, tracks[0].id)
-                        .catch(err => error(err));
+            // Don't await to send a response.
+            player.startPlayback(tracks[0], options)
+                .then((track) => {
+                    sse.sendEvent(ctx.res, 'playback-finished', track);
+                })
+                .catch(error => {
+                    sse.sendEvent(ctx.res, 'error', error);
                 });
-            // Don't wait to send a response.
             ctx.body = {
                 status: 'success',
                 data: tracks,
             };
+            sse.sendEvent(ctx.res, 'playback-started', tracks[0]);
         } else {
             ctx.status = 404;
             ctx.body = {
@@ -90,7 +93,15 @@ router.post(`${BASE_URL}/:albumId\\:play`, KoaBody(), async (ctx) => {
 router.post(`${BASE_URL}/:albumId\\:pause`, async (ctx) => {
     try {
         const player = new Player();
-        player.pausePlayback(); // Don't await.
+        // Don't await to send a response.
+        player.pausePlayback()
+            .then((track) => {
+                sse.sendEvent(ctx.res, 'playback-paused', track);
+            })
+            .catch(error => {
+                sse.sendEvent(ctx.res, 'error', error);
+            });
+
         ctx.body = {
             status: 'success',
         };
@@ -104,29 +115,6 @@ router.post(`${BASE_URL}/:albumId\\:fwd`, KoaBody(), async (ctx) => {
         const {categoryId, albumId} = ctx.params;
         const trackId = ctx.request.body && Number.isInteger(ctx.request.body.trackId) ? ctx.request.body.trackId : null;
 
-        playNextTrack(categoryId, albumId, trackId).then(
-            (track) => {
-                ctx.body = {
-                    status: 'success',
-                    data: track,
-                };
-            },
-            (errorMessage) => {
-                ctx.status = 404;
-                ctx.body = {
-                    status: 'error',
-                    message: errorMessage,
-                };
-    
-            }
-        );
-    } catch (err) {
-        error(err);
-    }
-});
-
-async function playNextTrack(categoryId, albumId, trackId) {
-    return new Promise(async function(resolve, reject) {
         let tracks = null ;
         if (trackId) {
             tracks = await trackQueries.getNextTrack(categoryId, albumId, trackId);
@@ -135,22 +123,33 @@ async function playNextTrack(categoryId, albumId, trackId) {
             tracks = await trackQueries.getFirstTrack(categoryId, albumId);
         }
         if (tracks.length) {
-            resolve(tracks); // We found a track that we're going to play. Respond to client.
+            debug(`Moving on to next track: categoryId: ${categoryId}, albumId: ${albumId}, trackId: ${tracks[0].id}`);
             const player = new Player();
-            // TODO: Pass whole track row so the promise can be resolved with all information.
-            player.startPlayback(tracks[0].path)
-                .then(async () => {
-                    debug(`Moving on to next track: categoryId: ${categoryId}, albumId: ${albumId}, trackId: ${tracks[0].id}`);
-                    playNextTrack(categoryId, albumId, tracks[0].id)
-                        .catch(err => error(err));
-                    // TODO: Notify client about track change.
+            // Don't await to send a response.
+            player.startPlayback(tracks[0])
+                .then((track) => {
+                    sse.sendEvent(ctx.res, 'playback-finished', track);
+                })
+                .catch(error => {
+                    sse.sendEvent(ctx.res, 'error', error);
                 });
+
+            ctx.body = {
+                status: 'success',
+                data: tracks,
+            };
+            sse.sendEvent(ctx.res, 'playback-started', tracks[0]);
+        } else {
+            ctx.status = 404;
+            ctx.body = {
+                status: 'error',
+                message: 'The requested track does not exist or the end of the album was reached.',
+            };
         }
-        else {
-            reject('The requested track does not exist or the end of the album was reached.');
-        }    
-    });
-}
+    } catch (err) {
+        error(err);
+    }
+});
 
 function setThumbnailPath(albums) {
     return albums.map(album => {

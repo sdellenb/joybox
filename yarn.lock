@@ -2227,7 +2227,7 @@ compressible@~2.0.14:
   dependencies:
     mime-db ">= 1.36.0 < 2"
 
-compression@^1.7.3:
+compression@^1.7.2, compression@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/compression/-/compression-1.7.3.tgz#27e0e176aaf260f7f2c2813c3e440adb9f1993db"
   integrity sha512-HSjyBG5N1Nnz7tF2+O7A9XUhyjru71/fwgNb7oIsEVHR0WShfs2tIS/EySLgiTe98aOK18YDlMXpzjCXY/n9mg==
@@ -7912,6 +7912,14 @@ sqlite3@^4.0.4:
     nan "~2.10.0"
     node-pre-gyp "^0.10.3"
     request "^2.87.0"
+
+sse-broadcast@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/sse-broadcast/-/sse-broadcast-0.5.2.tgz#a97a8e9cc33afe76163e662c6ff6bc6867c31dc2"
+  integrity sha512-wBfod8XWUEJapKaAI6ceZMPd3v8rb1NGGRUTNl1b16f0r0hLwfRlEMLYkwkx06P2ie88XnsAcc5sPq1KijlSKA==
+  dependencies:
+    compression "^1.7.2"
+    on-finished "^2.3.0"
 
 sshpk@^1.7.0:
   version "1.15.2"

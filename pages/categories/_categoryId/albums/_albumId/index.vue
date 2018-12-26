@@ -26,7 +26,11 @@ export default {
             route : null,
             currentTrackId: null,
             currentlyPlaying: false,
+            isPaused: false,
         };
+    },
+    created() {
+        this.setupServerListener();
     },
     mounted() {
         const axios = this.$axios; // eslint-disable-line no-unused-vars
@@ -38,6 +42,35 @@ export default {
         this.route = this.$route;
     },
     methods: {
+        setupServerListener() {
+            let es = new EventSource('/api/v1/status');
+
+            es.addEventListener('playback-started', event => {
+                let data = JSON.parse(event.data);
+                this.currentTrackId = data.trackId;
+                this.currentlyPlaying = true;
+            }, false);
+
+            es.addEventListener('playback-paused', event => {
+                let data = JSON.parse(event.data);
+                this.currentTrackId = data.trackId;
+                this.currentlyPlaying = true;
+                this.isPaused = true;
+            }, false);
+
+            es.addEventListener('playback-finished', event => {
+                let data = JSON.parse(event.data);
+                this.currentTrackId = data.trackId;
+                this.currentlyPlaying = false;
+            }, false);
+
+            es.addEventListener('error', event => {
+                if (event.readyState == EventSource.CLOSED) {
+                    console.error('Event was closed');
+                    console.error(EventSource);
+                }
+            }, false);
+        },
         async playAlbum() {
             let body = null;
             if (this.currentTrackId) {

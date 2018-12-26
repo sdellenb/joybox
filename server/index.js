@@ -6,6 +6,7 @@ const { Nuxt, Builder } = require('nuxt');
 const categoryRoutes = require('./routes/categories');
 const albumRoutes = require('./routes/albums');
 const trackRoutes = require('./routes/tracks');
+const statusRoutes = require('./routes/status');
 
 const app = new Koa();
 const host = process.env.HOST || '127.0.0.1';
@@ -15,6 +16,7 @@ const port = process.env.PORT || 3000;
 app.use(categoryRoutes.routes());
 app.use(albumRoutes.routes());
 app.use(trackRoutes.routes());
+app.use(statusRoutes.routes());
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js');

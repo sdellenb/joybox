@@ -21,8 +21,8 @@ module.exports = class Player {
         _player = new players[configuredPlayerClassName]();
     }
 
-    async startPlayback(filepath, startPos = null) {
-        return _player.startPlayback(filepath, startPos);
+    async startPlayback(track, options) {
+        return _player.startPlayback(track, options);
     }
 
     async pausePlayback() {
