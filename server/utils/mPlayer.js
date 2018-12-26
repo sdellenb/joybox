@@ -26,10 +26,10 @@ module.exports = class MPlayer extends BasePlayer {
         this.currentlyPlayingTrack = track;
 
         const playbackFinishedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
-            mplayer.on('start', () => {
+            mplayer.once('start', () => {
                 debug('MPlayer is starting playback.');
             });
-            mplayer.on('end', () => {
+            mplayer.once('end', () => {
                 debug('MPlayer finished playback.');
                 resolve(track);
             });
@@ -43,7 +43,7 @@ module.exports = class MPlayer extends BasePlayer {
         const playbackPausedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
             if (that.isPaused) {
                 debug('MPlayer is resuming playback.');
-                mplayer.on('resume', () => {
+                mplayer.once('resume', () => {
                     debug('MPlayer resumed playback.');
                     that.isPaused = false;
                     resolve(that.currentlyPlayingTrack);
@@ -52,7 +52,7 @@ module.exports = class MPlayer extends BasePlayer {
             }
             else {
                 debug('MPlayer is pausing playback.');
-                mplayer.on('pause', () => {
+                mplayer.once('pause', () => {
                     debug('MPlayer paused playback.');
                     that.isPaused = true;
                     resolve(that.currentlyPlayingTrack);
@@ -66,7 +66,7 @@ module.exports = class MPlayer extends BasePlayer {
     async stopPlayback(track) {
         const playbackStoppedPromise = new Promise(function(resolve, reject) { // eslint-disable-line no-unused-vars
             debug('MPlayer is stopping playback.');
-            mplayer.on('stop', () => {
+            mplayer.once('stop', () => {
                 debug('MPlayer is stopped playback.');
                 resolve(track);
             });
