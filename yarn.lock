@@ -6254,10 +6254,11 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-play-sound-mplayer@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/play-sound-mplayer/-/play-sound-mplayer-0.0.6.tgz#af81ec09feb10eea774b72544b99fe5edd5f02ce"
-  integrity sha512-1z6ZMa62fipG7vp8xu5KNEYvY2CqJA1pcdzZHrfV/gQpmmjbNYSusVrQ6mPRQQz1Hdc8/dRub59twQUNojVURQ==
+"play-sound-mplayer@https://github.com/sdellenb/play-sound-mplayer":
+  version "0.0.7"
+  resolved "https://github.com/sdellenb/play-sound-mplayer#4731bda9fb697220eb8ceaf96f3a3d8d682573d2"
+  dependencies:
+    tree-kill "^1.2.1"
 
 pluralize@^7.0.0:
   version "7.0.0"
@@ -8427,6 +8428,11 @@ tough-cookie@~2.4.3:
   dependencies:
     psl "^1.1.24"
     punycode "^1.4.1"
+
+tree-kill@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.1.tgz#5398f374e2f292b9dcc7b2e71e30a5c3bb6c743a"
+  integrity sha512-4hjqbObwlh2dLyW4tcz0Ymw0ggoaVDMveUB9w8kFSQScdRLo0gxO9J7WFcUBo+W3C1TLdFIEwNOWebgZZ0RH9Q==
 
 trim-newlines@^1.0.0:
   version "1.0.0"

@@ -33,7 +33,7 @@
     "koa-router": "^7.4.0",
     "nuxt": "^2.3.4",
     "omx-interface": "https://github.com/sdellenb/node-omx-interface",
-    "play-sound-mplayer": "^0.0.6",
+    "play-sound-mplayer": "https://github.com/sdellenb/play-sound-mplayer",
     "recursive-readdir": "^2.2.2",
     "sharp": "^0.21.1",
     "sqlite3": "^4.0.4",
