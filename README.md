@@ -10,7 +10,7 @@ A kid-friendly touch-controlled library media player on the Raspberry Pi
 1. Node.js v10.x (LTS):  
 [https://github.com/nodesource/distributions/blob/master/README.md#debinstall](https://github.com/nodesource/distributions/blob/master/README.md#debinstall)
 
-2. Yarn 1.12.x:  
+2. Yarn 1.15.x:  
 [https://yarnpkg.com/lang/en/docs/install/#debian-stable](https://yarnpkg.com/lang/en/docs/install/#debian-stable)  
 **Important on Raspberry Pi: Execute `yarn config set child-concurrency 1` before executing `yarn install`.  
 Otherwise the SDCard will get hammered by 5 parallel build processes and the system will overload!**
