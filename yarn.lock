@@ -6458,7 +6458,7 @@ object.values@^1.1.0:
 
 "omx-interface@https://github.com/sdellenb/node-omx-interface":
   version "1.5.0"
-  resolved "https://github.com/sdellenb/node-omx-interface#93a174668c6b00eeacebf509c59f34de53d7e019"
+  resolved "https://github.com/sdellenb/node-omx-interface#c9eede5211c4335e707ae2aba504780f0836a5a1"
   dependencies:
     debug "^4.1.0"
     jsonfile "^2.4.0"
@@ -6823,7 +6823,7 @@ pkg-dir@^3.0.0:
 
 "play-sound-mplayer@https://github.com/sdellenb/play-sound-mplayer":
   version "0.1.2-patch.1"
-  resolved "https://github.com/sdellenb/play-sound-mplayer#cfdcbe58e84253c860056b501e6e3e3ad1edec4d"
+  resolved "https://github.com/sdellenb/play-sound-mplayer#e0a7cef5b6865583dc6a14e004b874238cb52a16"
   dependencies:
     tree-kill "^1.2.1"
 
