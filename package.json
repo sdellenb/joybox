@@ -61,6 +61,7 @@
     "sinon": "^7.1.1"
   },
   "resolutions": {
-    "fstream": "^1.0.12"
+    "fstream": "^1.0.12",
+    "js-yaml": "^3.13.1"
   }
 }
