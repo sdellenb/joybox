@@ -66,6 +66,7 @@
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.13",
     "lodash.template": "^4.5.0",
+    "nodemon/**/configstore/dot-prop": "^5.1.1",
     "nodemon/**/node-pre-gyp/mkdirp/minimist": "^0.2.1",
     "nodemon/**/node-pre-gyp/rc/minimist": "^1.2.2",
     "serialize-javascript": "^2.1.1",
